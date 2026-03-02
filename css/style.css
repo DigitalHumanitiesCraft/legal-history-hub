@@ -1,0 +1,169 @@
+/* Legal History Hub - Custom Styles */
+
+:root {
+    --lhh-primary: #0d6efd;
+    --lhh-secondary: #6c757d;
+    --lhh-success: #198754;
+    --lhh-warning: #ffc107;
+    --lhh-dark: #212529;
+}
+
+/* Typography */
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Hero Section */
+.hero {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Cards */
+.project-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.project-card .card-title {
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+.project-card .card-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Type Badges */
+.badge-type {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge-database { background-color: #0d6efd; }
+.badge-edition { background-color: #6f42c1; }
+.badge-publication { background-color: #20c997; }
+.badge-tool { background-color: #fd7e14; }
+.badge-collection { background-color: #d63384; }
+.badge-portal { background-color: #0dcaf0; }
+
+/* Status Badges */
+.badge-status {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.badge-active { background-color: #198754; }
+.badge-completed { background-color: #6c757d; }
+.badge-archived { background-color: #adb5bd; color: #212529; }
+.badge-planned { background-color: #ffc107; color: #212529; }
+
+/* Filter Sidebar */
+.filter-checkbox {
+    cursor: pointer;
+}
+
+.filter-checkbox:hover {
+    background-color: #f8f9fa;
+}
+
+/* Language Switcher */
+.lang-btn.active {
+    background-color: #fff;
+    color: var(--lhh-primary);
+}
+
+/* List View */
+.view-list .project-card {
+    flex-direction: row;
+}
+
+.view-list .project-card .card-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.view-list .project-card .card-title {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 0;
+}
+
+.view-list .project-card .card-text {
+    display: none;
+}
+
+/* Period Badge */
+.period-badge {
+    font-size: 0.75rem;
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+/* Region Tags */
+.region-tag {
+    font-size: 0.7rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+/* Modal Styles */
+.modal-body h6 {
+    color: var(--lhh-primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1.5rem;
+}
+
+.modal-body h6:first-child {
+    margin-top: 0;
+}
+
+/* Loading State */
+#loadingSpinner {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    aside.col-lg-3 {
+        order: 2;
+    }
+
+    section.col-lg-9 {
+        order: 1;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar, .hero, aside, footer, .modal {
+        display: none !important;
+    }
+
+    .project-card {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #dee2e6;
+    }
+}

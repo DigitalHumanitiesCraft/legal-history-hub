@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal History Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-bank2 me-2"></i>Legal History Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-i18n="nav.projects">Projekte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about" data-i18n="nav.about">Über</a>
+                    </li>
+                </ul>
+                <!-- Language Switcher -->
+                <div class="btn-group" role="group" aria-label="Language">
+                    <button type="button" class="btn btn-outline-light btn-sm lang-btn active" data-lang="de">DE</button>
+                    <button type="button" class="btn btn-outline-light btn-sm lang-btn" data-lang="en">EN</button>
+                    <button type="button" class="btn btn-outline-light btn-sm lang-btn" data-lang="es">ES</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold" data-i18n="hero.title">Legal History Hub</h1>
+                    <p class="lead" data-i18n="hero.subtitle">
+                        Entdecken Sie digitale Forschungsprojekte zur Rechtsgeschichte des Max-Planck-Instituts für Rechtsgeschichte und Rechtstheorie.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-end d-none d-lg-block">
+                    <i class="bi bi-collection display-1 text-primary opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Filters Sidebar -->
+                <aside class="col-lg-3 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">
+                                <i class="bi bi-funnel me-2"></i>
+                                <span data-i18n="filters.title">Filter</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Search -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold" data-i18n="filters.search">Suche</label>
+                                <input type="text" class="form-control" id="searchInput" data-i18n-placeholder="filters.searchPlaceholder">
+                            </div>
+
+                            <!-- Type Filter -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold" data-i18n="filters.type">Typ</label>
+                                <div id="typeFilters"></div>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold" data-i18n="filters.status">Status</label>
+                                <div id="statusFilters"></div>
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold" data-i18n="filters.category">Kategorie</label>
+                                <div id="categoryFilters"></div>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <button class="btn btn-outline-secondary w-100" id="resetFilters">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                <span data-i18n="filters.reset">Filter zurücksetzen</span>
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Projects Grid -->
+                <section class="col-lg-9">
+                    <!-- Results Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="text-muted mb-0">
+                            <span id="resultCount">0</span>
+                            <span data-i18n="results.projects">Projekte</span>
+                        </p>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-secondary active" id="viewGrid">
+                                <i class="bi bi-grid-3x2-gap"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" id="viewList">
+                                <i class="bi bi-list"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Projects Container -->
+                    <div id="projectsContainer" class="row row-cols-1 row-cols-md-2 g-4">
+                        <!-- Projects will be loaded here -->
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- No Results -->
+                    <div id="noResults" class="text-center py-5 d-none">
+                        <i class="bi bi-search display-1 text-muted"></i>
+                        <p class="mt-3 text-muted" data-i18n="results.noResults">Keine Projekte gefunden.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-uppercase mb-3">Legal History Hub</h6>
+                    <p class="small text-muted">
+                        Max-Planck-Institut für Rechtsgeschichte und Rechtstheorie<br>
+                        Hansaallee 41, 60323 Frankfurt am Main
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="small text-muted mb-0">
+                        &copy; 2025 MPILHLT
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Detail Modal -->
+    <div class="modal fade" id="projectModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Content loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary" id="modalProjectLink" target="_blank">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>
+                        <span data-i18n="modal.visitProject">Projekt besuchen</span>
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="modal.close">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
