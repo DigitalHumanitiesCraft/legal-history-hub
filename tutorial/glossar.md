@@ -4,6 +4,10 @@
 
 ## A
 
+### Agentic Coding
+
+LLM-gestütztes Programmieren, bei dem ein KI-Agent autonom Dateien liest, Code schreibt, Tests ausführt und Fehler behebt. Der Mensch formuliert Anforderungen und bewertet Ergebnisse. Werkzeuge: Claude Code, GitHub Copilot, Codex. Siehe auch [Vibe Coding](#vibe-coding).
+
 ### Alignment
 Der Prozess, ein KI-Modell so zu trainieren, dass es hilfreich, harmlos und ehrlich antwortet. Methoden wie RLHF und Constitutional AI sind Teil davon.
 
@@ -13,30 +17,60 @@ Der Prozess, ein KI-Modell so zu trainieren, dass es hilfreich, harmlos und ehrl
 ### Autoregressive Generierung
 Das Prinzip, nach dem LLMs Text erzeugen: Jedes vorhergesagte Token wird Teil des Kontexts für die nächste Vorhersage. Das Modell baut seinen Output Wort für Wort auf.
 
+## B
+
+### Branch
+
+Eine parallele Arbeitslinie in [Git](#git). Man erstellt einen Branch, um an einem Feature zu arbeiten, ohne den Hauptcode (main) zu verändern. Wenn die Arbeit fertig ist, wird der Branch per Merge oder [Pull Request](#pull-request) zurückgeführt.
+
 ## C
 
 ### Chain of Thought
 **CoT** – eine Prompting-Technik, bei der man das Modell auffordert, schrittweise zu denken (z.B. „let's think step by step"). Verbessert die Qualität bei komplexen Aufgaben, weil Zwischenschritte explizit werden.
 
+### Client / Server
+
+**Client:** Dein Browser. Er schickt Anfragen und zeigt die Ergebnisse an. **Server:** Ein Computer im Internet, der Dateien bereitstellt. Er wartet auf Anfragen und antwortet. Jeder Seitenaufruf im Web ist ein Client-Server-Austausch über [HTTP](#http-https).
+
+### Clone
+
+Eine Kopie eines [Git](#git)-Repositorys von [GitHub](#github) auf den eigenen Computer herunterladen. Der Befehl `git clone` erstellt eine lokale Arbeitskopie mit der gesamten Änderungshistorie.
+
+### CLAUDE.md
+
+Konfigurationsdatei für Claude Code im Repository-Stammverzeichnis. Definiert Projektregeln, Code-Stil und Konventionen. Wird bei jedem Sessionstart automatisch gelesen. Das „Gedächtnis" des [Agentic Coding](#agentic-coding)-Agents für ein Projekt.
+
+### Commit
+
+Ein gespeicherter Schnappschuss in [Git](#git). Enthält eine kurze Beschreibung der Änderung. Commits bilden die Änderungshistorie eines Projekts. Jeder Commit hat eine eindeutige ID (Hash).
+
+### Computational Thinking
+
+Probleme so zerlegen, dass sie mit einem Computer gelöst werden können. Für die Arbeit mit LLMs bedeutet das: Aufgaben in kleine, klare Schritte aufteilen, statt „Bau mir eine Website" zu sagen. Angelehnt an Jeanette Wing (2006).
+
 ### Context Engineering
-Die systematische Gestaltung des Kontexts, den ein LLM erhält: Auswahl, Kompression und Strukturierung von Informationen im Context Window. Geht über Prompt Engineering hinaus, weil nicht nur die Frage, sondern der gesamte mitgegebene Kontext optimiert wird.
+Die systematische Gestaltung des Kontexts, den ein LLM erhält: Auswahl, Kompression und Strukturierung von Informationen im [Context Window](#context-window). Geht über [Prompt Engineering](#prompt-engineering) hinaus, weil nicht nur die Frage, sondern der gesamte mitgegebene Kontext optimiert wird. Siehe auch [Distillation](#distillation).
 
 ### Context Rot
-Die Leistung eines LLM verschlechtert sich, je mehr Text im Context Window steht – auch bei inhaltlich einfachen Aufgaben. Irrelevante Informationen lenken die Aufmerksamkeitsmechanismen ab. Mehr Kontext ≠ bessere Ergebnisse.
+Die Leistung eines LLM verschlechtert sich, je mehr Text im [Context Window](#context-window) steht – auch bei inhaltlich einfachen Aufgaben. Irrelevante Informationen lenken die Aufmerksamkeitsmechanismen ab. Mehr Kontext ≠ bessere Ergebnisse.
 
 ### Context Window
-Das „Arbeitsgedächtnis" eines LLM: der maximale Textumfang (in Tokens), den das Modell bei einer Anfrage verarbeiten kann. Umfasst Input (Anfrage + Kontext) und Output (generierte Antwort). Claude Opus: 200.000 Tokens.
+Das „Arbeitsgedächtnis" eines LLM: der maximale Textumfang (in [Tokens](#token)), den das Modell bei einer Anfrage verarbeiten kann. Umfasst Input (Anfrage + Kontext) und Output (generierte Antwort). Claude Opus: 200.000 Tokens.
 
 ### Critical Expert in the Loop
-Die Person mit Domänenwissen, die LLM-Ergebnisse validiert. LLMs haben keinen internen Mechanismus zur Verifikation – nur wer das Fachgebiet kennt, kann Korrektheit beurteilen. Im Hub-Projekt: Kerstin und Polina.
+Die Person mit Domänenwissen, die LLM-Ergebnisse validiert. LLMs haben keinen internen Mechanismus zur Verifikation – nur wer das Fachgebiet kennt, kann Korrektheit beurteilen. Im Hub-Projekt: Kerstin und Polina. Gegenstück zu [Sycophancy](#sycophancy) und [Konfabulation](#konfabulation).
 
 ### CSS
-**Cascading Style Sheets** – die Sprache, die bestimmt, wie eine Website aussieht: Farben, Schriftarten, Abstände, Layout.
+**Cascading Style Sheets** – die Sprache, die bestimmt, wie eine Website aussieht: Farben, Schriftarten, Abstände, Layout. Zusammen mit [HTML](#html) und [JavaScript](#javascript) eine der drei Sprachen des Webs.
 
 ## D
 
 ### Deployment
 Das Veröffentlichen einer Website oder Anwendung, sodass sie im Internet erreichbar ist. Beim Hub: Code auf GitHub pushen, GitHub Pages stellt die Seite automatisch bereit.
+
+### Distillation
+
+Die praktische Anwendung von [Context Engineering](#context-engineering): Wissen wird in kompakte Markdown-Dokumente verdichtet. Maximale Information bei minimalem [Token](#token)-Verbrauch. In [Promptotyping](#promptotyping) die dritte Phase, in der aus Exploration strukturierte [Promptotyping Documents](#promptotyping-documents) entstehen.
 
 ### Docsify
 Ein leichtgewichtiges Tool, das Markdown-Dateien direkt im Browser als Website anzeigt – ohne Build-Schritt. Dieses Tutorial nutzt Docsify.
@@ -50,6 +84,10 @@ Eine mathematische Darstellung von Text als Zahlenvektor in einem hochdimensiona
 
 ### Few-Shot Prompting
 Eine Prompting-Technik, bei der man dem Modell einige Beispiele im Prompt mitgibt, die das gewünschte Eingabe-Ausgabe-Format zeigen. Das Modell lernt das Muster aus dem Kontext, ohne neu trainiert zu werden.
+
+### Frontend / Backend
+
+**Frontend:** Was im Browser passiert. [HTML](#html), [CSS](#css), [JavaScript](#javascript). Das sehen die Nutzer. **Backend:** Was auf dem Server passiert. Datenbanken, Logik, Authentifizierung. Unsichtbar für den Nutzer. Der Legal History Hub ist ein reines Frontend-Projekt.
 
 ## G
 
@@ -71,7 +109,11 @@ Eine Schnittstelle, über die Programme auf Google-Tabellen zugreifen können. D
 Siehe [Konfabulation](#konfabulation). Der ältere, aber gebräuchlichere Begriff für dasselbe Phänomen.
 
 ### HTML
-**HyperText Markup Language** – die Grundsprache des Webs. HTML beschreibt die Struktur einer Website: Überschriften, Absätze, Links, Bilder.
+**HyperText Markup Language** – die Grundsprache des Webs. HTML beschreibt die Struktur einer Website: Überschriften, Absätze, Links, Bilder. HTML ist keine Programmiersprache, sondern eine Auszeichnungssprache (wie Markdown oder XML).
+
+### HTTP / HTTPS
+
+**HyperText Transfer Protocol** – das Protokoll, über das Browser und Server kommunizieren. Ablauf: Anfrage (Request) → Antwort (Response). **HTTPS** (das „S" steht für „secure") verschlüsselt die Verbindung. Heute Standard.
 
 ## J
 
@@ -132,6 +174,10 @@ Eine Methodik für die iterative Zusammenarbeit zwischen Mensch und KI. Kernprin
 ### Promptotyping Documents
 Markdown-Dateien, die Wissen über Forschungsdaten, Domäne und Anforderungen destillieren. Sie entstehen in der Exploration- und Distillation-Phase und dienen als kompakter, kuratierter Kontext für die Arbeit mit LLMs. Beispiele: knowledge.md, requirements.md, design.md.
 
+### Pull Request
+
+**PR** – eine Anfrage auf [GitHub](#github), einen [Branch](#branch) in den Hauptbranch zu mergen. Andere können den Code vorher ansehen und kommentieren. Coding Agents wie Claude Code können Pull Requests automatisch erstellen. (Auf GitLab: „Merge Request".)
+
 ## R
 
 ### Repository
@@ -161,3 +207,19 @@ Das Werkzeug, das Text in Tokens zerlegt. Verschiedene Modelle verwenden verschi
 
 ### Transformer
 Die Architektur hinter modernen LLMs (vorgestellt 2017, „Attention Is All You Need"). Der zentrale Mechanismus ist Attention: Das Modell lernt, welche Teile des Eingabetexts füreinander relevant sind.
+
+## U
+
+### URL
+
+**Uniform Resource Locator** – die Adresse einer Ressource im Web. Aufbau: `https://example.com:443/pfad/seite.html?suche=cat#ergebnis`. Bestandteile: Protokoll (https), Domain (example.com), Port (:443), Pfad, Parameter (?...), Anker (#...).
+
+## V
+
+### Vibe Coding
+
+LLM-generierten Code ausprobieren, ohne ihn im Detail zu verstehen. Geprägt von Andrej Karpathy (2025). **Informed Vibe Coding** ergänzt die Fähigkeit, Ergebnisse zu bewerten, Fehler zu erkennen und gezielt nachzubessern. Promptotyping geht noch weiter: strukturierte Dokumente statt spontanes Prompting.
+
+### VS Code
+
+**Visual Studio Code** – ein kostenloser Code-Editor von Microsoft. Im Hub-Projekt das Hauptwerkzeug: Editor, Terminal und Claude Code laufen darin. Die Live Server Extension zeigt Änderungen sofort im Browser. Konfiguration über [CLAUDE.md](#claudemd) und Settings-Dateien.

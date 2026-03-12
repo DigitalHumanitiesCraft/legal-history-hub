@@ -62,3 +62,22 @@ Chronological log of decisions, milestones, and dead ends.
 **Lektion 1 vollständig geschrieben** auf Basis der WS1-Slides (48 Folien, [Google Slides](https://docs.google.com/presentation/d/1Jy3BvZ334gw_-B_5wEwoItzlZaQDsDtFfx0HCUOaWGE)). Destilliert für nicht-technisches Publikum. Themen: Next Token Prediction, Tokenisierung, Pre-/Post-Training, Embeddings (Deep Dive), Sycophancy, Konfabulation, Context Window, Context Rot, Prompt Engineering (CoT, Few-Shot, System Prompts), Context Engineering, Promptotyping-Einführung.
 
 **Schreibstil-Regel:** Keine Em-Dashes (—) oder Doppel-Bindestriche (--). Gedankenstriche als En-Dash mit Leerzeichen (–) sind okay.
+
+## 2026-03-12 – WS2 Landing Page und Glossar-Erweiterung
+
+**WS2 stattgefunden:** 13.03.2026, Christian Steiner, 4 Stunden Remote. Themen: Web-Grundlagen, Git, Vibe/Agentic Coding, Promptotyping-Methodik vertieft, Claude Code 101, Hands-On mit MoMA-Dataset.
+
+**Landing Page erstellt:** `tutorial/slides/ws2-web-promptotyping-claude-code.md` – analog zu WS1. 14 Themen extrahiert aus 43 Slides, PDF-Link, Verwandte-Lektionen-Verweise. In Sidebar und Docsify-Suchindex integriert.
+
+**Glossar erweitert:** 14 neue Einträge aus WS2-Material:
+- Web-Grundlagen: Client/Server, Frontend/Backend, HTTP/HTTPS, URL
+- Git-Konzepte: Branch, Clone, Commit, Pull Request
+- Coding-Paradigmen: Agentic Coding, Vibe Coding, Computational Thinking
+- Tooling: CLAUDE.md, VS Code
+- Promptotyping: Distillation
+
+**Querverweise ergänzt:** Neue und bestehende Einträge untereinander verlinkt (z.B. Branch → Git, Pull Request; Frontend/Backend → HTML, CSS, JavaScript; Context Engineering → Distillation).
+
+**Alphabetische Sortierung korrigiert:** C-Einträge waren falsch sortiert (Client/Server stand nach Critical Expert statt davor).
+
+**Glossar-Stand:** ~49 Begriffe (A–V), deckt WS1 + WS2 vollständig ab.
