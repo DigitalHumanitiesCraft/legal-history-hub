@@ -6,6 +6,8 @@
 * **Workshops**
   * [WS1: GenAI Fundamentals](slides/ws1-genai-fundamentals.md)
   * [WS2: Web, Promptotyping & Claude Code](slides/ws2-web-promptotyping-claude-code.md)
+  * [WS3: Datenmodell in Google Sheets](ws3-cheatsheet.md)
 
 * **Nachschlagen**
   * [Glossar](glossar.md)
+  * [WS3 Cheat Sheet](ws3-cheatsheet.md)

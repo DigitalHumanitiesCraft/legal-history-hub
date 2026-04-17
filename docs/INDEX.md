@@ -1,31 +1,34 @@
-# Promptotyping Documents — Legal History Hub
+# Promptotyping Documents – Legal History Hub
 
 ## Purpose
 
-These documents serve as structured context for LLM sessions and as human-readable project documentation. They follow the Promptotyping methodology: documents are the source of truth, code is disposable.
+These documents are the structured context for LLM sessions and the human-readable project documentation for the Hub. They follow the Promptotyping methodology: documents are the source of truth, code is disposable.
+
+Separate promptotyping docs for the tutorial website live in `tutorial/docs/`. That folder describes the tutorial *as its own artifact*, not the hub.
 
 ## Documents
 
 | Document | Purpose | Load when... |
-|----------|---------|-------------|
+|----------|---------|--------------|
 | [RESEARCH.md](RESEARCH.md) | Institution, audience, domain context, success criteria | Starting a new session, onboarding |
-| [DATA-MODEL.md](DATA-MODEL.md) | Sheet structure, columns, vocabularies, standards mapping, validation | Working on data, filters, API |
+| [DATA-MODEL.md](DATA-MODEL.md) | Nine-tab hybrid sheet structure, columns, vocabularies, validation, standards mapping | Working on data, the sheet, filters, build, API |
 | [DESIGN.md](DESIGN.md) | UI decisions, role models, layout, typography, filter design | Building UI components, styling |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Tech stack, data flow, file structure, key decisions | Technical decisions, debugging |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Tech stack, data flow (sheet → CSVs → build → JSON → frontend), file structure, key decisions | Technical decisions, debugging, build pipeline |
 | [JOURNAL.md](JOURNAL.md) | Chronological decisions, dead ends, milestones | Progress review, onboarding |
 
 ## Selective Context Loading
 
-Don't load all docs into every prompt. Pick by task:
+Don't load every doc into every prompt. Pick by task:
 
 | Task | Load | Skip |
 |------|------|------|
 | UI component | DESIGN.md + relevant DATA-MODEL.md section | JOURNAL, RESEARCH |
-| Data/filter logic | DATA-MODEL.md + ARCHITECTURE.md | DESIGN, JOURNAL |
+| Data / filter logic | DATA-MODEL.md + ARCHITECTURE.md | DESIGN, JOURNAL |
 | New feature | DESIGN.md + DATA-MODEL.md + ARCHITECTURE.md | JOURNAL |
+| Build pipeline / sheet-to-JSON | DATA-MODEL.md + ARCHITECTURE.md | DESIGN, RESEARCH |
 | Debugging | ARCHITECTURE.md + relevant section | DESIGN, RESEARCH |
 | Progress review | JOURNAL.md | everything else |
 
 ## Tutorial
 
-The `tutorial/` folder contains Promptotyping lessons that accompany the project from Phase 1 to launch. Target audience: MPIeR team (Kerstin, Polina). These are didactic documents, not LLM context.
+The `tutorial/` folder is a separate artifact: a Docsify tutorial website for the MPIeR team (Kerstin, Polina). Its own promptotyping docs live in `tutorial/docs/`. Lesson 3 ("Das Datenmodell verstehen") is the didactic companion to this folder's `DATA-MODEL.md` and is the right reading for understanding *why* the hybrid model looks the way it does.

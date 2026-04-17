@@ -2,16 +2,16 @@
 
 ## What This Is
 
-Metadata portal for research projects of Max-Planck-Institut für Rechtsgeschichte und Rechtstheorie (Abt. II). Discovery layer that **links to** external projects — no content integration.
+Metadata portal for research projects of Max-Planck-Institut für Rechtsgeschichte und Rechtstheorie (Abt. II). Discovery layer that **links to** external projects; no content integration.
 
 **Client:** Kerstin Willburth (MPIeR Abt. II) | **Developer:** DHCraft OG (Christopher Pollin, Christian Steiner)
 
 ## Two Components
 
-1. **Hub** — the portal itself (static site, GitHub Pages)
-2. **Empowerment** — 6 workshops + tutorial website to enable Kerstin/Polina to maintain and extend the Hub independently using AI tools
+1. **Hub**: the portal itself (static site, GitHub Pages).
+2. **Empowerment**: 6 workshops + tutorial website to enable Kerstin and Polina to maintain and extend the Hub independently using AI tools.
 
-The tutorial website lives in `tutorial/`. Workshop slides in `tutorial/slides/`.
+The tutorial website lives in `tutorial/`. Workshop slides and landing pages in `tutorial/slides/`.
 
 ## Methodology
 
@@ -19,7 +19,7 @@ This project uses **Promptotyping** (invoke with `/promptotyping`). Documents as
 
 ## Context Documents
 
-Load selectively per task — don't load everything at once (Context Rot).
+Load selectively per task. Don't load everything at once (Context Rot).
 
 - **Hub docs:** see [docs/INDEX.md](docs/INDEX.md) for overview and selective loading guide
 - **Tutorial docs:** see [tutorial/docs/INDEX.md](tutorial/docs/INDEX.md) for overview and selective loading guide
@@ -29,48 +29,62 @@ Load selectively per task — don't load everything at once (Context Rot).
 
 | Layer | Choice | Why |
 |-------|--------|-----|
-| CMS | Google Sheets + Sheets API | Familiar to researchers, free, collaborative |
-| Data | Static JSON in repo (`data/projects.json`) | No backend, fast, cacheable |
+| CMS | Google Sheets (9-tab hybrid model, Tables feature) | Familiar to researchers, free, collaborative, structured references |
+| Data transport | CSV per tab, committed to repo | Stable contract between editor and build, diffs cleanly |
+| Build | Python script (`scripts/build-hub-data.py`) | Deterministic join + validation + enrichment. Claude Code writes and maintains it, invokes via Bash. Intentionally not a Skill: same input must produce same output. |
+| Runtime data | Static `data/projects.json` (generated) | No backend, fast, cacheable, single `fetch()` |
 | Frontend | Vanilla JavaScript | No build step, teachable, maintainable by non-devs |
 | Styling | Bootstrap 5 | Responsive, accessible, well-documented |
 | Hosting | GitHub Pages | Free, git-integrated, HTTPS |
 
+## Data Model (summary)
+
+Nine tabs in one Google Sheet: `core` (wide, one row per project) + five long junction tabs (`people`, `institutions`, `subjects`, `regions`, `keywords`) + `vocabulary` (closed enums) + `authority` (normdatei with ORCID/GND/ROR/Wikidata) + `_helpers` (derived FILTER views for dropdown binding). Full schema in [docs/DATA-MODEL.md](docs/DATA-MODEL.md); didactic explanation in [tutorial/03-datenmodell-hybrid.md](tutorial/03-datenmodell-hybrid.md).
+
 ## Languages
 
-UI and content: DE, EN, ES. Multilingual fields use `_de`/`_en`/`_es` suffixes in Sheets/CSV.
+UI and content: DE, EN, ES. Singleton multilingual fields on `core` use `_de` / `_en` / `_es` suffixes. Entity display labels (subjects, regions, keywords) carry their translations in the `authority` tab.
 
 ## Project Status
 
 | Phase | Content | Status |
 |-------|---------|--------|
-| 1 (Month 1-2) | Requirements, metadata model | Done |
-| 2 (Month 2-4) | Grundlagen-Workshops 1-3 | WS1 done (04.03.2026) |
-| 3 (Month 3-6) | Hub prototype | Prototype exists |
+| 1 (Month 1-2) | Requirements, metadata model | Done (v1 flat model) |
+| 2 (Month 2-4) | Grundlagen-Workshops 1-3 | WS1 done (04.03.2026), WS2 done (13.03.2026), WS3 scheduled (model prepared 15.04.2026) |
+| 3 (Month 3-6) | Hub prototype | v1 prototype exists (flat-model learning artifact); hybrid data model designed, frontend rebuild pending |
 | 4-7 | Advanced workshops, polish, launch | Pending |
+
+## Writing style
+
+Keine Em-Dashes (—), keine Doppel-Bindestriche (--). Deutsche Gedankenstriche als En-Dash mit Leerzeichen (–) sind ok. Sonst Doppelpunkte, Semikolons, Punkte oder Satz umformulieren. Gilt für Lektionen, Journale, Commit-Messages und Code-Kommentare.
 
 ## File Structure
 
 ```
-├── index.html, css/, js/, data/   # Hub prototype
-├── docs/                          # Promptotyping Documents (LLM context)
-│   └── INDEX.md                   # Start here for hub context
-├── tutorial/                      # Tutorial website (Docsify)
-│   ├── index.html                 # Docsify loader
-│   ├── _sidebar.md                # Navigation
-│   ├── 01-*.md                    # Lessons (numbered, Markdown)
-│   ├── slides/                    # Workshop PDFs
-│   └── docs/                      # Promptotyping Documents for tutorial
-│       └── INDEX.md               # Start here for tutorial context
-└── CLAUDE.md                      # This file
+├── index.html, css/, js/     # Hub frontend (v1 prototype)
+├── data/
+│   ├── sheets/               # CSV per tab (core, people, institutions, ...)
+│   └── projects.json         # Runtime data, generated by scripts/build-hub-data.py
+├── docs/                     # Promptotyping Documents for the hub (LLM context)
+│   └── INDEX.md              # Start here for hub context
+├── tutorial/                 # Tutorial website (Docsify)
+│   ├── index.html            # Docsify loader
+│   ├── _sidebar.md           # Navigation
+│   ├── 01-*.md, 02-*.md ...  # Lessons (numbered, Markdown)
+│   ├── slides/               # Workshop landing pages + PDFs
+│   └── docs/                 # Promptotyping Documents for the tutorial
+│       └── INDEX.md          # Start here for tutorial context
+└── CLAUDE.md                 # This file
 ```
 
 ## Constraints
 
 - No server-side code (GitHub Pages = static only)
-- No build tools required (Kerstin/Polina must be able to edit and deploy)
-- Dataset fits in memory (<100 projects)
-- Kerstin and Polina have **no technical background** — all code, docs, and tutorials must be accessible to non-developers
+- No build tools required for the frontend (Kerstin and Polina edit and deploy via `git push`)
+- Dataset fits in memory (<100 projects, ~100 KB enriched JSON after authority join)
+- Kerstin and Polina have **no technical background**: all code, docs, and tutorials must be accessible to non-developers
+- `scripts/build-hub-data.py` is the one step that knows the 9-tab shape; everything downstream sees a clean nested array
 
 ## Development Commands
 
-*To be added once build tooling is in place.*
+*To be added once `scripts/build-hub-data.py` is in place (WS3 follow-up).*

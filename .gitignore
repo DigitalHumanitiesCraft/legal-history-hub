@@ -22,3 +22,6 @@ node_modules/
 
 # Contract (not public)
 27_25*
+
+# WS4-Planung (temporär, noch nicht publik)
+tutorial/slides/ws4-claude-infrastruktur.md

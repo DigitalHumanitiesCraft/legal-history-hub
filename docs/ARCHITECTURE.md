@@ -3,36 +3,49 @@
 ## System Overview
 
 ```
-Google Sheets (Metadata CMS)
-    ↓ Sheets API / manual CSV export
-Static JSON (data/projects.json)
-    ↓
+Google Sheet (1 workbook, 9 tabs)
+    ↓ File → Download → CSV per tab (or Sheets API)
+data/sheets/*.csv (core, people, institutions, subjects, regions, keywords, vocabulary, authority)
+    ↓ Python: scripts/build-hub-data.py (invoked by Claude Code via Bash)
+data/projects.json (nested, validated, enriched)
+    ↓ fetch() from frontend at runtime
 Frontend (HTML/CSS/JavaScript)
     ↓
-GitHub Pages (Hosting)
+GitHub Pages
 ```
 
 ## Tech Stack
 
 | Layer | Technology | Rationale |
 |-------|-----------|-----------|
-| CMS | Google Sheets + Sheets API | Familiar to researchers, free, collaborative, versioned |
-| Data | Static JSON in repo | No backend needed, fast, cacheable |
+| CMS | Google Sheets + Tables feature + Sheets API | Familiar to researchers, free, collaborative, versioned. Tables give structured references and auto-expansion. |
+| Data transport | CSV per tab, committed to repo | Sheets is the editor; CSVs are the stable contract between editor and build. Diffs cleanly in git. |
+| Build | Python script (`scripts/build-hub-data.py`) reading CSVs | Join, validate, enrich in one deterministic step. Claude Code writes and maintains it; editors invoke it via natural-language prompt (Claude Code runs it via Bash). Intentionally not a Skill: deterministic output for deterministic input. |
+| Runtime data | Static `data/projects.json` | Single `fetch()` from frontend. No backend, fast, cacheable. |
 | Frontend | Vanilla JavaScript | No build step, teachable, maintainable by non-devs |
 | Styling | Bootstrap 5 | Responsive grid, accessible components, well-documented |
 | Icons | Bootstrap Icons | Consistent with Bootstrap |
 | Hosting | GitHub Pages | Free, git-integrated, HTTPS |
-| Editor | VS Code + Claude Code Extension | AI-assisted development workflow |
+| Editor | VS Code + Claude Code | AI-assisted workflow; Kerstin/Polina use the same setup |
 
-## Data Flow
+## Data Flow in Detail
 
-1. Researchers edit project metadata in Google Sheets
-2. Export: Sheets API call or manual CSV download
-3. CSV → JSON transformation (script or manual)
-4. `data/projects.json` committed to repo
-5. Frontend loads JSON at runtime via `fetch()`
-6. Client-side filtering, search, sorting
-7. GitHub Pages serves static files
+1. **Edit**: Researchers edit project metadata in one Google Sheet with 9 tabs. Entity-level metadata (PIDs, translations) goes to `authority`; per-project relations (who worked on what) go to the long tabs; singleton project fields go to `core`.
+2. **Export**: Either `File → Download → xlsx` followed by splitting into per-tab CSVs, or `File → Download → CSV` once per tab, or (future) a Sheets API call driven by Claude Code.
+3. **Commit**: The 8 payload CSVs (`core`, `people`, `institutions`, `subjects`, `regions`, `keywords`, `vocabulary`, `authority`) land in `data/sheets/` and are committed.
+4. **Build**: `scripts/build-hub-data.py` reads the CSVs, validates referential integrity, joins the long tabs to `core` and `authority`, and emits `data/projects.json` as a single flat array of enriched project objects. Editors invoke it through Claude Code ("build projects.json"); Claude Code runs it via Bash.
+5. **Serve**: Frontend fetches `data/projects.json` once on page load. All filtering, sorting, search happen client-side.
+6. **Publish**: Git push → GitHub Pages serves static files.
+
+## Build Responsibilities
+
+The build is the one place that knows about the nine-tab shape. Everything downstream sees a clean nested array. Responsibilities:
+
+- **Referential integrity**: every `project_id` in a long tab must exist in `core`; every `role` in `people` must exist in `vocabulary.person_roles`; every `relation` in `institutions` must exist in `vocabulary.institution_relations`. Missing `authority` entries for persons, institutions, subjects, regions, keywords produce warnings (not errors) and leave the enriched fields empty, so editors can top up `authority` after.
+- **Joins**: long-tab rows → `authority` on `label` + `type` → enriched entity objects with ORCID/GND/ROR/Wikidata.
+- **Field splitting**: `core.media_types` and `core.content_languages` are semicolon strings in the CSV; the build splits them into arrays for the frontend.
+- **Nesting**: each project gets an embedded `people[]`, `institutions[]`, `subjects[]`, `regions[]`, `keywords[]` array.
+- **Fail-loud**: on hard error (dangling foreign key, unknown enum value), build aborts with a report. Frontend should never see half-broken data.
 
 ## File Structure
 
@@ -45,16 +58,24 @@ legal-history-hub/
 │   ├── app.js              # Core application logic
 │   └── i18n.js             # Internationalization
 ├── data/
-│   ├── projects.csv        # Source data (editable)
-│   └── projects.json       # Runtime data (generated from CSV)
-├── docs/                   # Promptotyping Documents
+│   ├── sheets/             # CSV per tab, editable source
+│   │   ├── core.csv
+│   │   ├── people.csv
+│   │   ├── institutions.csv
+│   │   ├── subjects.csv
+│   │   ├── regions.csv
+│   │   ├── keywords.csv
+│   │   ├── vocabulary.csv
+│   │   └── authority.csv
+│   └── projects.json       # Runtime data (generated by build)
+├── docs/                   # Promptotyping documents (hub)
 │   ├── INDEX.md
 │   ├── RESEARCH.md
 │   ├── DATA-MODEL.md
 │   ├── DESIGN.md
 │   ├── ARCHITECTURE.md
 │   └── JOURNAL.md
-├── tutorial/               # Promptotyping lessons for MPIeR team
+├── tutorial/               # Tutorial website (Docsify) and its own promptotyping docs
 └── CLAUDE.md               # Project instructions for Claude Code
 ```
 
@@ -62,22 +83,34 @@ legal-history-hub/
 
 | Decision | Choice | Alternatives Considered | Rationale |
 |----------|--------|------------------------|-----------|
-| No framework | Vanilla JS | React, Vue, Svelte | Teachability > DX; no build step; Kerstin/Polina maintain it |
-| Client-side filtering | JS filter/search | Server-side, Algolia | Static hosting constraint; dataset small enough (<100 projects) |
+| No framework | Vanilla JS | React, Vue, Svelte | Teachability > DX; no build step for the frontend; Kerstin/Polina maintain it |
+| Client-side filtering | JS filter/search over a pre-enriched JSON | Server-side, Algolia | Static hosting constraint; dataset small (<100 projects) |
 | Bootstrap 5 | Yes | Tailwind, custom CSS | Documentation quality; familiar to beginners; accessible defaults |
-| Single JSON file | Yes | Multiple files, API | Simplicity; one fetch; dataset small |
-| Modal for details | Current impl. | Dedicated pages | Fewer files; faster; revisit if SEO requires individual URLs |
+| Nested projects.json | Yes | One JSON per entity type + client-side joins | Build does the work once; frontend stays simple |
+| Hybrid wide + long sheet model | Yes | Flat single sheet (v1), full relational | Editor ergonomics: Sheets handles long-tab filtering, wide rows stay readable. Build pushes normalization + enrichment to one place. |
+| Separate `authority` tab for PIDs | Yes | Inline PIDs per project, separate tab per entity type | One place for ORCID/GND/ROR/Wikidata; editors maintain identifiers once per entity, not per project |
+| `_helpers` derived views for dropdowns | Yes | Direct `authority` binding | Sheets dropdowns cannot filter; `_helpers` uses `FILTER` spill-ranges to project per type |
+| CSV (not xlsx) as build input | Yes | xlsx | Diffs cleanly in git; plain text; no binary lock-in |
+| Build as Python script, not a Skill | Python script in `scripts/` | Claude Code Skill (`/build-hub-data`) | A Skill implies Claude's judgment in the loop. The build is deterministic: same CSVs must produce the same JSON. Script is the right abstraction. Claude Code still writes and invokes it, so editor workflow stays the same. |
+| Modal for details | Current impl. | Dedicated pages | Fewer files; faster; revisit if SEO or deep links become required |
 
 ## Constraints
 
 - No server-side code (GitHub Pages = static only)
-- No build tools required (Kerstin/Polina must be able to edit and deploy)
-- Dataset fits in memory (<100 projects, ~50KB JSON)
-- Must work offline after initial load (PWA optional)
+- No build tools required for the frontend itself (Kerstin/Polina can edit HTML/JS and deploy via `git push`)
+- Dataset fits in memory (<100 projects, ~100 KB enriched JSON after authority join)
+- Build runs on-demand in Claude Code, not in CI. Editors explicitly invoke it after changing the sheet.
+- Kerstin and Polina have no technical background: every step of the pipeline has to be promptable in Claude Code, not hand-coded.
 
 ## SEO Strategy
 
-- JSON-LD structured data per project (see DATA-MODEL.md → Standards Mapping)
-- `<meta>` tags for title/description per language
-- Semantic HTML (`<article>`, `<nav>`, `<main>`)
-- If modal → no individual project URLs → SEO trade-off (acceptable for discovery layer)
+- JSON-LD structured data per project (see `DATA-MODEL.md` → Standards Mapping) with PIDs inlined (ORCID, ROR, Wikidata) as `identifier` / `sameAs` fields.
+- `<meta>` tags for title/description per language.
+- Semantic HTML (`<article>`, `<nav>`, `<main>`).
+- Modal-based detail view → no individual project URLs → SEO trade-off (acceptable for a discovery layer whose value is the outbound links, not the landing pages).
+
+## Future: Sheets API (WS4)
+
+The current flow is CSV-export-based: editors download tabs as CSV, commit them, run `scripts/build-hub-data.py` (through Claude Code). WS4 replaces the download step with a live Sheets API read from the build script. CSVs stay in the repo as a committed snapshot for reproducibility, but they are produced by the build rather than by hand. The rest of the pipeline does not change.
+
+Operational details (spreadsheet ID, auth options, endpoint, rate limits, errors, sharing cheat sheet): see [`data/GSHEET.md`](../data/GSHEET.md).

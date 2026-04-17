@@ -13,12 +13,16 @@ tutorial/
 ├── README.md           # Landing page
 ├── _sidebar.md         # Lesson navigation
 ├── _navbar.md          # Language switcher (future)
-├── glossar.md          # Term definitions (based on chpollin/llmdh glossary)
-├── 01-genai-und-prompt-engineering.md   # Based on WS1 slides
-├── 02-preparation-und-role-models.md
+├── glossar.md          # Term definitions (native Docsify Markdown, based on chpollin/llmdh glossary)
+├── 01-genai-und-prompt-engineering.md   # Based on WS1 slides (04.03.2026)
+├── 02-preparation-und-role-models.md    # Phase 1 retrospective
+├── 03-datenmodell-hybrid.md             # Preread for WS3, hybrid wide + long explained
+├── 04-google-sheets-cms.md              # Written after WS3 (hands-on)
 ├── ...
-├── slides/             # Workshop PDFs
-│   └── Workshop 1 - *.pdf
+├── slides/             # Workshop landing pages + PDFs
+│   ├── ws1-genai-fundamentals.md
+│   ├── ws2-web-promptotyping-claude-code.md
+│   └── ...
 └── docs/               # Promptotyping docs (THIS folder, not rendered by Docsify)
 ```
 
@@ -52,12 +56,13 @@ Plugins to include (via CDN script tags):
 * **Lernpfad**
   * [Lektion 1: GenAI und Prompt Engineering](01-genai-und-prompt-engineering.md)
   * [Lektion 2: Preparation und Role Models](02-preparation-und-role-models.md)
-  * [Lektion 3: Google Sheets als CMS](03-google-sheets-cms.md)
+  * [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md)
+  * [Lektion 4: Google Sheets als CMS](04-google-sheets-cms.md)
   * ...
 
 * **Workshops**
-  * [WS1: GenAI Fundamentals](slides/ws1.md)
-  * [WS2: Web-Grundlagen](slides/ws2.md)
+  * [WS1: GenAI Fundamentals](slides/ws1-genai-fundamentals.md)
+  * [WS2: Web-Grundlagen und Claude Code](slides/ws2-web-promptotyping-claude-code.md)
   * ...
 
 * **Nachschlagen**
