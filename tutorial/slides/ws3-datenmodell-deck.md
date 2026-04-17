@@ -384,11 +384,11 @@ Ab jetzt: **live in Claude Code**. Ihr promptet selbst.
 - Das Repo `legal-history-hub/` ist geklont
 - Google Chrome ist offen, im Google Sheet eingeloggt
 - Die Extension **„Claude in Chrome"** ist im Chrome Web Store installiert
-- Chrome-Integration in Claude Code aktiviert mit `/chrome`
+- Chrome-Integration in Claude Code aktiviert: im **Terminal** mit `/chrome`, in der **VS-Code-Extension** stattdessen per `@browser`-Mention im Prompt-Feld (der `/chrome`-Befehl existiert dort nicht)
 
 **Claude Code steuert euren Chrome-Tab** (nativ eingebaute Integration, kein MCP): Sheet öffnen, Zellen lesen, klicken, Screenshots machen. Sichtbar in einem echten Browser-Fenster.
 
-**Wenn es hakt** (*„Erweiterung nicht erkannt"*): `/chrome` → *Erweiterung erneut verbinden*. Notfalls Claude Code und Chrome neu starten.
+**Wenn es hakt** (*„Erweiterung nicht erkannt"*): im Terminal `/chrome` → *Erweiterung erneut verbinden*; in VS Code `@browser` erneut im Prompt senden. Notfalls Claude Code und Chrome neu starten.
 
 **Ziel:** Ihr erlebt, dass Claude Code euer Datenmodell versteht, erklären kann, und Fehler findet, die Sheets allein nicht sieht.
 
@@ -782,7 +782,7 @@ Die **Google Sheets API** lässt Claude Code direkt auf unser Sheet zugreifen, p
 | Claude steuert den Browser | Claude fragt den Sheets-Server direkt |
 | Gut für: lesen, Screenshots, einzelne Edits | Gut für: Massen-Lesen, Build-Pipeline |
 | Langsam, visuell | Schnell, strukturiert |
-| „Claude in Chrome"-Extension + `/chrome` | Credentials vor dem Workshop vorbereitet |
+| „Claude in Chrome"-Extension + `/chrome` (Terminal) bzw. `@browser` (VS Code) | Credentials vor dem Workshop vorbereitet |
 
 Beide haben ihren Platz. Die API ist der Profi-Weg für den Build.
 
