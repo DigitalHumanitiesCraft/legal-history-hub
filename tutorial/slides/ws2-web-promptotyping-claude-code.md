@@ -25,7 +25,7 @@
 
 ## Slides
 
-- [Workshop 2 – Slides (PDF)](Workshop%202%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Web-Grundlagen%2C%20Promptotyping%20%26%20Claude%20Code%20-%20LHH.pdf)
+- [Workshop 2 – Slides (PDF)](Workshop%202%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Web-Grundlagen%2C%20Promptotyping%20%26%20Claude%20Code%20-%20LHH.pdf ':ignore :target=_blank')
 
 ## Verwandte Lektionen
 

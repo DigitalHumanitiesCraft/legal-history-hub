@@ -87,9 +87,11 @@ function extractLinks(content) {
     let match;
     linkRegex.lastIndex = 0;
     while ((match = linkRegex.exec(cleaned)) !== null) {
+      // Strip Docsify link helpers: [text](url ':ignore :target=_blank')
+      const href = match[2].replace(/\s+['"][^'"]*['"]\s*$/, '');
       links.push({
         text: match[1],
-        href: match[2],
+        href,
         line: i + 1
       });
     }

@@ -4,7 +4,7 @@
 
 **Voraussetzungen:** WS1 (GenAI), WS2 (Web, Claude Code)
 **Vertiefung:** [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md)
-**Slides:** [Workshop 3 – Slides (PDF)](slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf)
+**Slides:** [Workshop 3 – Slides (PDF)](slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf ':ignore :target=_blank')
 
 ## Wide oder Long? Die Faustregel
 
@@ -225,6 +225,6 @@ Ausführlichere Definitionen: [Glossar](glossar.md).
 ## Siehe auch
 
 - [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md) – ausführliche Erklärung
-- [Workshop 3 – Slides (PDF)](slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf) – die Folien zum Workshop
+- [Workshop 3 – Slides (PDF)](slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf ':ignore :target=_blank') – die Folien zum Workshop
 - [Glossar](glossar.md) – alle Fachbegriffe
 - Der `_readme`-Tab im Sheet selbst als kompakte Notiz für Bearbeiter

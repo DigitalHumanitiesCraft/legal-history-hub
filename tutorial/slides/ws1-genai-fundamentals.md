@@ -20,7 +20,7 @@
 ## Slides
 
 - [Workshop 1 – Google Slides](https://docs.google.com/presentation/d/1Jy3BvZ334gw_-B_5wEwoItzlZaQDsDtFfx0HCUOaWGE)
-- [Workshop 1 – Slides (PDF)](Workshop%201%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20LLM%20and%20GenAI%20Foundations.pdf)
+- [Workshop 1 – Slides (PDF)](Workshop%201%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20LLM%20and%20GenAI%20Foundations.pdf ':ignore :target=_blank')
 
 ## Verwandte Lektion
 
