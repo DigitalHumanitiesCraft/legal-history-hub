@@ -290,6 +290,6 @@ Wenn du einen Begriff davon in einem anderen Kontext wiedersiehst (Fachliteratur
 ## Siehe auch
 
 - Der `_readme`-Tab im Sheet selbst, als kompakte Notiz für Bearbeiter.
-- Die Dokumentation in [docs/](../docs/) für technische Details zum Build-Prozess.
+- Die Dokumentation in [docs/](https://github.com/DigitalHumanitiesCraft/legal-history-hub/tree/main/docs) im Repo für technische Details zum Build-Prozess.
 - [Lektion 1: GenAI und Prompt Engineering](01-genai-und-prompt-engineering.md) für den methodischen Rahmen.
 - [Glossar](glossar.md) für Fachbegriffe auf einen Blick.

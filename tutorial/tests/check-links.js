@@ -128,9 +128,25 @@ function checkLink(link, sourceFile, anchorCache) {
     return;
   }
 
-  // Resolve file path relative to source file's directory
+  // Resolve file path relative to source file's directory.
+  // Absolute hrefs like "/" or "/foo" are Docsify hash routes, resolved from TUTORIAL_DIR.
+  // The root route "/" maps to README.md.
   const sourceDir = path.dirname(sourceFile);
-  const targetPath = path.resolve(sourceDir, filePart);
+  let targetPath;
+  if (filePart.startsWith('/')) {
+    const routePart = filePart === '/' ? 'README.md' : filePart.slice(1);
+    targetPath = path.resolve(TUTORIAL_DIR, routePart);
+  } else {
+    targetPath = path.resolve(sourceDir, filePart);
+  }
+
+  // Docsify scope check: links must stay inside tutorial/
+  // (files outside are not reachable via Docsify routing, even if they exist on disk)
+  const relativeTarget = path.relative(TUTORIAL_DIR, targetPath);
+  if (relativeTarget.startsWith('..')) {
+    ERRORS.push(`${relPath}:${line} - Link leaves Docsify scope (outside tutorial/): ${filePart}`);
+    return;
+  }
 
   // Check if file exists
   if (!fs.existsSync(targetPath)) {

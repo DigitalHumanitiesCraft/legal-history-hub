@@ -36,7 +36,7 @@ Die ausführliche wissenschaftliche Beschreibung findet sich hier: [Promptotypin
 
 Kerstin und Polina haben Referenzseiten geschickt – Websites, die als Vorbild oder Gegenbeispiel für den Hub dienen. Das ist klassische Preparation: Bevor wir eine einzige Zeile Code schreiben, schauen wir uns an, was funktioniert und was nicht.
 
-Die detaillierte Analyse findet sich in [docs/DESIGN.md](../docs/DESIGN.md). Hier die wichtigsten Erkenntnisse:
+Die detaillierte Analyse findet sich in [docs/DESIGN.md](https://github.com/DigitalHumanitiesCraft/legal-history-hub/blob/main/docs/DESIGN.md) im Repo. Hier die wichtigsten Erkenntnisse:
 
 ### Was funktioniert gut
 
