@@ -66,7 +66,7 @@ Folien erstellt mit Claude Code in VS Code, gerendert als HTML mit Marp. Quelle:
 
 ---
 
-# Begriffe, die heute fallen werden
+# Begriffe, die heute fallen werden (1/2)
 
 <div class="small">
 
@@ -77,7 +77,18 @@ Folien erstellt mit Claude Code in VS Code, gerendert als HTML mit Marp. Quelle:
 | **Normdatei / Authority** | zentrale Liste mit Namen und ihren IDs |
 | **Foreign Key** | Verweis in eine andere Tabelle (hier: `project_id`) |
 | **Junction Table** | Tabelle, die eine Many-to-Many-Beziehung auflöst |
-| **Many-to-Many** | Ein Projekt hat viele Personen, eine Person viele Projekte – beide Seiten unbegrenzt |
+| **Many-to-Many** | Ein Projekt hat viele Personen, eine Person viele Projekte |
+
+</div>
+
+---
+
+# Begriffe, die heute fallen werden (2/2)
+
+<div class="small">
+
+| Begriff | Kurz |
+|---|---|
 | **Singleton** | Feld mit genau einem Wert pro Entität (z.B. Titel) |
 | **Source of Truth** | die eine Stelle, an der der richtige Wert steht |
 | **Wide / Long / Tidy** | Daten-Formate (kommen gleich ausführlich) |
@@ -87,7 +98,7 @@ Folien erstellt mit Claude Code in VS Code, gerendert als HTML mit Marp. Quelle:
 
 </div>
 
-Diese Folie bleibt als Referenz. Beim Zurückblättern findet ihr hier die Definitionen.
+Diese beiden Folien bleiben als Referenz. Beim Zurückblättern findet ihr hier die Definitionen.
 
 ---
 
@@ -189,8 +200,7 @@ Das Pilot-Modell war Format 2 (plus Separator-Listen). Wir bauen heute Format 3.
 
 Eine Zeile pro Person-Projekt-Rolle. Das nennt man **Long-Format**.
 
-> *„Each variable is a column, each observation is a row, each type of observational unit is a table."*
-> – Hadley Wickham (Statistiker, Erfinder des R-Tidyverse), *Tidy Data*, 2014.
+> *„Each variable is a column, each observation is a row."* – Hadley Wickham, *Tidy Data*, 2014.
 
 Der Tab selbst ist eine **Junction Table**: eine Tabelle, die eine Many-to-Many-Beziehung auflöst.
 
@@ -344,18 +354,16 @@ Klingt überzeugend. Klingt fertig. Klingt richtig.
 
 # Was im Sheet tatsächlich stand
 
-Nur **ein** Tab (`people`) war angefasst. Darin nicht eine, sondern **acht** neue Spalten:
+Nur **ein** Tab (`people`) war angefasst, darin **acht** neue Spalten:
 
 ```
 A           B         C          D         E         F         G         H
 project_id  Title De  Column 10  Title De  Title De  Column 7  Column 6  Column 5
 ```
 
-Alle 26 Datenzeilen in den neuen Spalten: `#ERROR!`. Die `role`-Spalte war aus dem Viewport verschoben. Gemini selbst zeigte parallel einen Fehlerdialog.
+Alle 26 Datenzeilen in den neuen Spalten: `#ERROR!`. `role` war aus dem Viewport verschoben. **Reparatur:** `Ctrl+Z` × 20.
 
-**Reparatur:** `Ctrl+Z` x20.
-
-Geminis Bericht war keine Lüge. Es war eine **plausible Beschreibung des erwarteten Ergebnisses**, nicht des tatsächlichen. Das ist klassische LLM-Halluzination: detailliert, kohärent, und falsch.
+Geminis Bericht war eine **plausible Beschreibung des erwarteten Ergebnisses** – klassische LLM-Halluzination: detailliert, kohärent, falsch.
 
 ---
 
@@ -380,15 +388,24 @@ Diese drei Regeln gelten für jede KI, nicht nur für Gemini. Auch für Claude C
 Ab jetzt: **live in Claude Code**. Ihr promptet selbst.
 
 **Technisch läuft:**
-- Claude Code (≥ 2.0.73) auf euren Rechnern (WS2)
+
+- Claude Code (≥ 2.0.73) auf euren Rechnern (aus WS2)
 - Das Repo `legal-history-hub/` ist geklont
 - Google Chrome ist offen, im Google Sheet eingeloggt
 - Die Extension **„Claude in Chrome"** ist im Chrome Web Store installiert
-- Chrome-Integration in Claude Code aktiviert: im **Terminal** mit `/chrome`, in der **VS-Code-Extension** stattdessen per `@browser`-Mention im Prompt-Feld (der `/chrome`-Befehl existiert dort nicht)
+- Chrome-Integration aktiviert: im **Terminal** mit `/chrome`, in der **VS-Code-Extension** per `@browser`-Mention im Prompt-Feld
 
-**Claude Code steuert euren Chrome-Tab** (nativ eingebaute Integration, kein MCP): Sheet öffnen, Zellen lesen, klicken, Screenshots machen. Sichtbar in einem echten Browser-Fenster.
+---
 
-**Wenn es hakt** (*„Erweiterung nicht erkannt"*): im Terminal `/chrome` → *Erweiterung erneut verbinden*; in VS Code `@browser` erneut im Prompt senden. Notfalls Claude Code und Chrome neu starten.
+# Claude Code steuert euren Chrome-Tab
+
+Nativ eingebaute Integration (kein MCP): Sheet öffnen, Zellen lesen, klicken, Screenshots machen. Sichtbar in einem echten Browser-Fenster.
+
+**Wenn es hakt** (*„Erweiterung nicht erkannt"*):
+
+- Terminal: `/chrome` → *Erweiterung erneut verbinden*
+- VS Code: `@browser` erneut im Prompt senden
+- Notfalls Claude Code und Chrome neu starten
 
 **Ziel:** Ihr erlebt, dass Claude Code euer Datenmodell versteht, erklären kann, und Fehler findet, die Sheets allein nicht sieht.
 
@@ -575,15 +592,24 @@ In jedem Long-Tab eine Formel-Spalte `title_de` nach `project_id`:
 =XLOOKUP(A2; core[project_id]; core[title_de]; "")
 ```
 
-**Was das bringt:**
+- Neue Zeile einfügen → `project_id` eingeben → Titel erscheint sofort
+- Titel im `core` ändern → aktualisiert sich überall
 
-- Neue Zeile einfügen → `project_id` eingeben → Titel erscheint **sofort**
-- Titel im `core` ändern → aktualisiert sich **überall**
-- Formel-Zelle kann nicht versehentlich überschrieben werden
+`core.title_de` bleibt **Source of Truth**, alle anderen Vorkommen sind Abbildungen davon.
 
-`core.title_de` bleibt **Source of Truth**: die eine Stelle, an der der richtige Wert physisch steht. Alle anderen Vorkommen sind nur Abbildungen davon.
+---
 
-**Falls Auto-Expansion nicht greift:** `Ctrl+D` (Fill Down) ist der universelle Fallback. Bereich `B2:Bn` markieren, `Ctrl+D` drücken, Formel verteilt sich mit angepassten Zeilen-Referenzen.
+# Schritt 2b: Wenn Auto-Expansion nicht greift
+
+Google Sheets Tables kopieren Formeln normalerweise automatisch in neue Zeilen. Falls nicht:
+
+**`Ctrl+D` (Fill Down)** ist der universelle Fallback.
+
+1. Zelle mit der funktionierenden Formel markieren
+2. Bereich nach unten bis zur letzten Zeile erweitern (`B2:Bn`)
+3. `Ctrl+D` drücken
+
+Die Formel verteilt sich auf alle markierten Zellen, mit an die Zeile angepassten Referenzen. Funktioniert auch außerhalb von Tables.
 
 ---
 
@@ -634,21 +660,15 @@ Für Fremd-IDs und Authority-Bindungen, wo neue Werte später nachgetragen werde
 
 # Warum drei Stufen statt einer?
 
-**Problem:** `authority` enthält **alles** durcheinander: Personen, Institutionen, Keywords, Regionen, Themen.
+**Problem:** `authority` enthält alles durcheinander – Personen, Institutionen, Keywords, Regionen. Ein Dropdown direkt darauf würde alle Typen vermischen.
 
-Ein Dropdown direkt auf `authority[label]` würde alle Typen vermischen.
-
-**Lösung:** `_helpers` filtert mit `FILTER`-Formeln:
+**Lösung:** `_helpers` filtert:
 
 ```
 =FILTER(authority[label]; authority[type]="person")
 ```
 
-Ergebnis: `person_labels` zeigt nur Personen, `keyword_labels` nur Keywords.
-
-**Spill Range:** Das ist der Fachbegriff für Formeln, die automatisch **mehrere** Ergebniszeilen ausgeben. Eine einzige Formel in Zelle B2 füllt B2, B3, B4, ... selbst – solange darunter Platz ist. Muss nicht nach unten gezogen werden, wächst mit der Quelle mit.
-
-Wächst `authority`, wachsen die Helper-Listen **automatisch** mit.
+`person_labels` zeigt nur Personen, `keyword_labels` nur Keywords. Dank **Spill Range** wächst die Liste mit der Quelle – ohne Nachziehen.
 
 ---
 
@@ -746,18 +766,22 @@ Zeilen reagieren auf Werte: abgeschlossene Projekte → grau, leere Pflichtzelle
 
 Beispiel: abgeschlossene Projekte sollen die ganze Zeile grau zeigen.
 
-1. Datenbereich markieren: einmal in die Tabelle klicken, `Ctrl+A` markiert den Daten-Bereich automatisch (mit Tables). Sonst manuell, z.B. `A2:N50`.
+1. Datenbereich markieren: in die Tabelle klicken, `Ctrl+A` erfasst alles (mit Tables). Sonst manuell, z.B. `A2:N50`.
 2. `Format → Bedingte Formatierung`
 3. Rechts im Panel: **„Benutzerdefinierte Formel ist"**
 4. Formel eingeben: `=$F2="completed"` (Spalte F = `status`)
 5. Hintergrundfarbe wählen (grau), speichern
 
-**Die Dollar-Zeichen sind entscheidend:**
+---
+
+# Warum das `$` in `=$F2="completed"`?
 
 - `$F` heißt: *immer* Spalte F prüfen, egal in welcher Spalte die Zelle liegt
 - `2` ohne `$` heißt: pass die Zeile an, wenn die Regel auf andere Zeilen zieht
 
-Ergebnis: Zeile 2 wird grau, wenn `F2 = "completed"`. Ganze Zeile, nicht nur die Status-Zelle.
+**Ergebnis:** Zeile 2 wird grau, wenn `F2 = "completed"`. Ganze Zeile, nicht nur die Status-Zelle.
+
+Ohne `$F` würde die Regel in Spalte B auf Spalte B schauen – dort steht kein `status`, nichts würde grau.
 
 ---
 
@@ -773,16 +797,18 @@ Nächste Folien: was die Sheets API ist, und wie die Pipeline konkret aussieht.
 
 # Was ist die Sheets API?
 
-Eine **API** (Application Programming Interface) ist eine Schnittstelle, über die Programme miteinander reden.
+Eine **API** (Application Programming Interface) ist eine Schnittstelle, über die Programme miteinander reden. Die **Google Sheets API** lässt Claude Code direkt aufs Sheet zugreifen, ohne Browser-Klicks.
 
-Die **Google Sheets API** lässt Claude Code direkt auf unser Sheet zugreifen, programmatisch, ohne Browser-Klicks.
+<div class="small">
 
 | Chrome-Integration (Block 2) | Sheets API (Pipeline) |
 |---|---|
 | Claude steuert den Browser | Claude fragt den Sheets-Server direkt |
 | Gut für: lesen, Screenshots, einzelne Edits | Gut für: Massen-Lesen, Build-Pipeline |
 | Langsam, visuell | Schnell, strukturiert |
-| „Claude in Chrome"-Extension + `/chrome` (Terminal) bzw. `@browser` (VS Code) | Credentials vor dem Workshop vorbereitet |
+| „Claude in Chrome" + `/chrome` bzw. `@browser` | Credentials vorab vorbereitet |
+
+</div>
 
 Beide haben ihren Platz. Die API ist der Profi-Weg für den Build.
 
@@ -800,13 +826,11 @@ GitHub Pages (Hub live)
 ```
 
 1. Neue Person in Sheets eintragen
-2. Claude Code: *„Baue `projects.json` neu"* → führt das Python-Script aus
+2. Claude Code: *„Baue `projects.json` neu"* → führt das Script aus
 3. Ergebnis prüfen, committen, pushen
 4. Hub zeigt die neue Person
 
-**Kein CSV-Zwischenschritt:** das Script liest die Tabs live über die API und schreibt direkt `projects.json`. `_helpers` wird nicht benötigt (ist nur Dropdown-Hilfe im Sheet).
-
-**Wichtig für heute:** Das Build-Script ist vor dem Workshop fertig und getestet. Ihr seht Claude Code das Script ausführen. In Block 4 schauen wir rein, wie es aufgebaut ist und wie es sich von einem Skill unterscheidet.
+Script vorab fertig. In Block 4 schauen wir rein.
 
 ---
 
@@ -829,10 +853,18 @@ Claude Code kann mehr als einzelne Prompts. **Skills** und **Plugins** machen wi
 # Was sind Skills?
 
 - Wiederverwendbare Befehle, die Claude Code mit `/` aufruft
-- **Prompt-Wrapper**: ein Wort aktiviert eine strukturierte Anleitung, die Claude dann mit **Urteil** ausführt – nicht als Makro, sondern situativ
+- **Prompt-Wrapper**: ein Wort aktiviert eine strukturierte Anleitung, die Claude mit **Urteil** ausführt – nicht als Makro, sondern situativ
 - Ein Skill ist ein **Ordner** mit einer `SKILL.md`-Datei darin (kann weitere Hilfsdateien enthalten)
 
-**Zwei Orte:**
+<div class="small">
+
+Referenz: https://code.claude.com/docs/en/skills.md
+
+</div>
+
+---
+
+# Skills: zwei Orte
 
 ```
 legal-history-hub/
@@ -842,18 +874,27 @@ legal-history-hub/
     enrich-authority/
       SKILL.md
 
-~/.claude/skills/          ← global, über alle Projekte (eigener Rechner)
+~/.claude/skills/          ← global, über alle Projekte
   promptotyping/
     SKILL.md
 ```
 
 Lokal für Hub-spezifisches, global für alles, was ihr in mehreren Projekten braucht.
 
-<div class="small">
+---
 
-https://code.claude.com/docs/en/skills.md
+# Skills installieren: `npx skills`
 
-</div>
+Skills liegen als Ordner in GitHub-Repos. Die Vercel-Labs-CLI zieht sie auf euren Rechner:
+
+```
+npx skills add anthropics/skills --skill skill-creator -g -a claude-code
+npx skills add DigitalHumanitiesCraft/promptotyping-skill -g -a claude-code
+```
+
+- `-g` = global (`~/.claude/skills/`), ohne `-g` projekt-lokal
+- `-a claude-code` = Ziel-Agent (auch `cursor`, `codex`, ...)
+- `npx skills list` / `update` für Übersicht und Aktualisierung
 
 ---
 
@@ -873,7 +914,7 @@ Nicht jedes Problem ist ein Skill-Problem.
 
 <div class="small">
 
-*CI = Continuous Integration. Automatisierte Test-Läufe auf GitHub bei jedem `git push`. Scripts können dort laufen, Skills nicht (brauchen das LLM im Loop).
+*CI = Continuous Integration. Automatische Test-Läufe bei `git push`. Scripts laufen dort, Skills nicht.
 
 </div>
 
@@ -889,7 +930,21 @@ Dann öffnen wir die Skill-Datei im Editor:
 
 *„Das ist ein Markdown-Dokument mit Anweisungen. Claude Code liest es und führt die Schritte aus."*
 
-**Die Einsicht:** Ihr könnt eigene Skills schreiben. Alles, was ihr in natürlicher Sprache formulieren könnt, kann ein Skill sein.
+Ihr könnt also eigene Skills schreiben. Alles, was ihr in natürlicher Sprache formulieren könnt, kann ein Skill werden.
+
+---
+
+# Voraussetzung: /skill-creator
+
+Skills schreibt man nicht einfach in eine Markdown-Datei. Anthropic liefert dafür einen **Meta-Skill**: `/skill-creator`. Er weiß, wie ein guter Skill aussieht.
+
+Er kümmert sich um:
+
+- saubere Frontmatter (`name`, `description`)
+- eine präzise `description` – daran erkennt Claude, wann der Skill feuern soll
+- progressive disclosure (Details in Unterdateien, nicht alles in `SKILL.md`)
+
+Ohne `/skill-creator` schreibt Claude ein Markdown, das *aussieht* wie ein Skill. Mit `/skill-creator` wird es einer.
 
 ---
 
@@ -900,13 +955,17 @@ Wir bauen einen **Skill**, kein Script. Der Unterschied:
 - Ein Script listet Fehler roh in `stdout`
 - Ein Skill **erklärt** Findings auf Deutsch, **priorisiert**, **schlägt Fixes vor**
 
-1. Claude Code: *„Leg einen Skill `/validate-data` an. Er liest das Sheet über die Chrome-Integration, prüft alle `project_id` in den Long-Tabs gegen `core`, prüft `role` und `relation` gegen `vocabulary`, und erklärt mir in klaren deutschen Sätzen, was nicht stimmt und wie ich es fixe."*
-2. Claude Code schreibt `.claude/skills/validate-data/SKILL.md` (ein Ordner mit der SKILL.md darin)
+**Der Skill-Vorteil:** natürlichsprachige Erklärung für die Editor-Arbeit, nicht nur Fehler-Codes. Ein reiner Checker wäre besser ein Python-Script.
+
+---
+
+# /validate-data: der Ablauf
+
+1. `/skill-creator` aufrufen. Auf die Rückfrage beschreiben: *„Ein Skill `/validate-data`, der das Sheet über die Chrome-Integration liest, alle `project_id` in den Long-Tabs gegen `core` prüft, `role` und `relation` gegen `vocabulary`, und in klaren deutschen Sätzen erklärt, was nicht stimmt und wie ich es fixe."*
+2. Claude Code schreibt `.claude/skills/validate-data/SKILL.md`
 3. Wir lesen die Datei gemeinsam
 4. Wir rufen `/validate-data` auf – Claude Code erkennt neue Skills live, ohne Neustart
 5. Verfeinern: *„Zeig bei jedem Fund auch die konkrete Zeile, das Projekt und einen Fix-Vorschlag."*
-
-**Der Skill-Vorteil:** natürlichsprachige Erklärung für die Editor-Arbeit, nicht nur Fehler-Codes. Ein reiner Checker wäre besser ein Python-Script.
 
 ---
 
@@ -916,15 +975,13 @@ Wir bauen einen **Skill**, kein Script. Der Unterschied:
 
 | Typ | Name | Was es tut | Status |
 |---|---|---|---|
-| **Script** | `scripts/build-hub-data.py` | CSVs → `projects.json`, deterministisches Join + Enrichment | vorhanden |
-| **Skill** | `/explain-model` | Liest Sheet, erklärt aktuellen Modellstand auf Deutsch | Idee |
-| **Skill** | `/add-project` | Geführter Dialog: Titel, Jahre, Personen, Validierung, schreibt ins Sheet | Idee |
-| **Skill** | `/validate-data` | Liest Tabs, erklärt Findings, priorisiert, schlägt Fixes vor | bauen wir gleich |
-| **Skill** | `/enrich-authority` | Findet ORCID/GND-Lücken, Web-Suche, Approval-Loop pro Eintrag | Idee |
+| **Script** | `build-hub-data.py` | Sheets → `projects.json` (Join + Enrichment) | vorhanden |
+| **Skill** | `/explain-model` | Erklärt Modellstand auf Deutsch | Idee |
+| **Skill** | `/add-project` | Geführter Dialog für neue Projekte | Idee |
+| **Skill** | `/validate-data` | Findings + Fix-Vorschläge | gleich |
+| **Skill** | `/enrich-authority` | ORCID/GND-Lücken mit Approval-Loop | Idee |
 
 </div>
-
-**Das Build-Skript ist kein Skill, obwohl man es so nennen könnte.** Python-Script ist hier die bessere Wahl: deterministisch, testbar, in CI ausführbar. Claude Code hat es geschrieben und passt es bei Bedarf an. Das ist eine andere Rolle als Skills.
 
 Brainstorming: Welchen Skill würdet ihr als Nächstes brauchen?
 
@@ -934,44 +991,26 @@ Brainstorming: Welchen Skill würdet ihr als Nächstes brauchen?
 
 Skills sagen Claude Code **was** es tun soll. **MCP-Plugins** geben Claude Code neue **Werkzeuge**.
 
-MCP heißt **Model Context Protocol**: ein Standard, über den externe Dienste mit einer KI sprechen können.
+MCP = **Model Context Protocol**, ein Standard für den Draht zwischen KI und externen Diensten.
 
-Beispiele:
+Beispiele: **Google-Sheets-MCP** (API-Zugriff aufs Sheet), **ORCID-API-Plugin** (Forscher-Kennungen), **GitHub-MCP** (Issues/PRs).
 
-- **Google-Sheets-MCP**: direkter API-Zugriff aufs Sheet (könnte unsere Pipeline vereinfachen)
-- **ORCID-API-Plugin**: automatische Suche nach Forscher-Kennungen
-- **Filesystem-MCP**: Zugriff auf Ordner außerhalb des Repos
-- **GitHub-MCP**: Issues und PRs lesen/schreiben
-
-Die Chrome-Integration (Block 2) ist **kein** MCP-Plugin, sondern nativ in Claude Code eingebaut. Ihr müsst Plugins nicht selbst bauen, aber es hilft zu wissen, dass es sie gibt.
-
-<div class="small">
-
-https://docs.anthropic.com/en/docs/claude-code/mcp
-
-</div>
+Die Chrome-Integration aus Block 2 ist **kein** MCP-Plugin, sondern nativ eingebaut. Ihr müsst Plugins nicht selbst bauen – wichtig ist nur zu wissen, dass es sie gibt.
 
 ---
 
 # CLAUDE.md: das Projektgedächtnis
 
-Claude Code liest bei jedem Start die Datei `CLAUDE.md` im Projekt-Root.
-
-*„Das ist die Bedienungsanleitung für Claude Code, speziell für unser Projekt."*
+Claude Code liest bei jedem Start `CLAUDE.md` im Projekt-Root – die Bedienungsanleitung für dieses Projekt.
 
 Darin steht:
+
 - Welche Tabs das Sheet hat
 - Wie das Hybrid-Modell aufgebaut ist
 - Welche Konventionen gelten
 - Welche Skills verfügbar sind
 
 Wenn Claude Code euer Modell „kennt", liegt das an dieser Datei. Wenn etwas fehlt oder veraltet ist: `CLAUDE.md` ergänzen.
-
-<div class="small">
-
-https://docs.anthropic.com/en/docs/claude-code/memory
-
-</div>
 
 ---
 
