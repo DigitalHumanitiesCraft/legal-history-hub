@@ -4,7 +4,7 @@
 
 **Voraussetzungen:** WS1 (GenAI), WS2 (Web, Claude Code)
 **Vertiefung:** [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md)
-**Slides:** [Workshop 3 – Slides (PDF)](slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf ':ignore :target=_blank')
+**Slides:** <a href="slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf" target="_blank" rel="noopener">Workshop 3 – Slides (PDF)</a>
 
 ## Wide oder Long? Die Faustregel
 
@@ -191,6 +191,8 @@ Welche Personen haben keine ORCID? Schlag für jede eine plausible
 ORCID via Web-Suche vor, ich bestätige einzeln.
 ```
 
+> **Chrome aktivieren:** Im Terminal mit `/chrome`. In der VS-Code-Extension gibt es `/chrome` **nicht** – stattdessen `@browser` im Prompt-Feld schreiben (offizielle Variante, [Docs](https://code.claude.com/docs/en/vs-code#automate-browser-tasks-with-chrome)). Die Chrome-Extension muss in beiden Fällen installiert und Chrome offen sein.
+
 ## Drei Merksätze für den Umgang mit KI
 
 | Regel | Heißt konkret |
@@ -225,6 +227,6 @@ Ausführlichere Definitionen: [Glossar](glossar.md).
 ## Siehe auch
 
 - [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md) – ausführliche Erklärung
-- [Workshop 3 – Slides (PDF)](slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf ':ignore :target=_blank') – die Folien zum Workshop
+- <a href="slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf" target="_blank" rel="noopener">Workshop 3 – Slides (PDF)</a> – die Folien zum Workshop
 - [Glossar](glossar.md) – alle Fachbegriffe
 - Der `_readme`-Tab im Sheet selbst als kompakte Notiz für Bearbeiter

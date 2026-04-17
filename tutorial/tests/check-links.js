@@ -61,13 +61,17 @@ function extractAnchors(content) {
 }
 
 /**
- * Extract all Markdown links from content
- * Returns array of { text, href, line }
+ * Extract all Markdown + inline HTML links from content
+ * Returns array of { text, href, line, kind }
+ *   kind: 'md' (regular Markdown link) or 'html' (inline <a href>)
+ * HTML <a> links get kind 'html' and are treated as browser-resolved (relative
+ * to the Docsify root), not as Docsify Hash-Router routes.
  */
 function extractLinks(content) {
   const links = [];
   const lines = content.split('\n');
-  const linkRegex = /(?<!!)\[([^\]]*)\]\(([^)]+)\)/g;
+  const mdLinkRegex = /(?<!!)\[([^\]]*)\]\(([^)]+)\)/g;
+  const htmlLinkRegex = /<a\s+[^>]*href\s*=\s*["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
 
   let inCodeBlock = false;
 
@@ -85,15 +89,16 @@ function extractLinks(content) {
     const cleaned = line.replace(/`[^`]+`/g, '');
 
     let match;
-    linkRegex.lastIndex = 0;
-    while ((match = linkRegex.exec(cleaned)) !== null) {
-      // Strip Docsify link helpers: [text](url ':ignore :target=_blank')
+    mdLinkRegex.lastIndex = 0;
+    while ((match = mdLinkRegex.exec(cleaned)) !== null) {
+      // Strip Docsify link helpers: [text](url ':target=_blank')
       const href = match[2].replace(/\s+['"][^'"]*['"]\s*$/, '');
-      links.push({
-        text: match[1],
-        href,
-        line: i + 1
-      });
+      links.push({ text: match[1], href, line: i + 1, kind: 'md' });
+    }
+
+    htmlLinkRegex.lastIndex = 0;
+    while ((match = htmlLinkRegex.exec(cleaned)) !== null) {
+      links.push({ text: match[2], href: match[1], line: i + 1, kind: 'html' });
     }
   }
   return links;
@@ -103,7 +108,7 @@ function extractLinks(content) {
  * Check if a link target exists
  */
 function checkLink(link, sourceFile, anchorCache) {
-  const { href, line } = link;
+  const { href, line, kind } = link;
   linksChecked++;
 
   // Skip external links
@@ -130,14 +135,21 @@ function checkLink(link, sourceFile, anchorCache) {
     return;
   }
 
-  // Resolve file path relative to source file's directory.
-  // Absolute hrefs like "/" or "/foo" are Docsify hash routes, resolved from TUTORIAL_DIR.
-  // The root route "/" maps to README.md.
+  // Path resolution depends on link kind:
+  //   - Markdown links ([text](url)): Docsify Hash-Router intercepts them.
+  //     Relative paths resolve against the source file's directory.
+  //   - Inline HTML links (<a href="url">): the browser resolves them against
+  //     the current page URL, which under Docsify Hash-Routing is always
+  //     TUTORIAL_DIR (the docsify root), regardless of which Markdown source
+  //     rendered the content. This matters for PDFs/assets in subfolders.
+  //   - Absolute hrefs starting with "/" always resolve from TUTORIAL_DIR.
   const sourceDir = path.dirname(sourceFile);
   let targetPath;
   if (filePart.startsWith('/')) {
     const routePart = filePart === '/' ? 'README.md' : filePart.slice(1);
     targetPath = path.resolve(TUTORIAL_DIR, routePart);
+  } else if (kind === 'html') {
+    targetPath = path.resolve(TUTORIAL_DIR, filePart);
   } else {
     targetPath = path.resolve(sourceDir, filePart);
   }
@@ -150,19 +162,22 @@ function checkLink(link, sourceFile, anchorCache) {
     return;
   }
 
-  // Check if file exists
-  if (!fs.existsSync(targetPath)) {
-    // Could be a URL-encoded path
-    const decodedPath = path.resolve(sourceDir, decodeURIComponent(filePart));
-    if (!fs.existsSync(decodedPath)) {
-      ERRORS.push(`${relPath}:${line} - File not found: ${filePart}`);
-      return;
-    }
+  // Check if file exists (with URL-decoded fallback, respecting the same
+  // resolution root we used above).
+  const decodedFile = decodeURIComponent(filePart);
+  const decodeRoot = filePart.startsWith('/') || kind === 'html' ? TUTORIAL_DIR : sourceDir;
+  const decodedPath = path.resolve(
+    decodeRoot,
+    filePart.startsWith('/') ? decodedFile.slice(1) : decodedFile
+  );
+  if (!fs.existsSync(targetPath) && !fs.existsSync(decodedPath)) {
+    ERRORS.push(`${relPath}:${line} - File not found: ${filePart}`);
+    return;
   }
 
   // Check anchor within target file
   if (anchorPart) {
-    const resolvedTarget = fs.existsSync(targetPath) ? targetPath : path.resolve(sourceDir, decodeURIComponent(filePart));
+    const resolvedTarget = fs.existsSync(targetPath) ? targetPath : decodedPath;
 
     if (!anchorCache.has(resolvedTarget)) {
       const content = fs.readFileSync(resolvedTarget, 'utf-8');
