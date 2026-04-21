@@ -22,6 +22,7 @@
 
 ## Slides
 
+- <a href="slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.html" target="_blank" rel="noopener">Workshop 3 – Slides (HTML, Pfeiltasten zum Navigieren)</a>
 - <a href="slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf" target="_blank" rel="noopener">Workshop 3 – Slides (PDF)</a>
 
 ## Verwandte Lektion

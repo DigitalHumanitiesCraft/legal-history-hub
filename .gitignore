@@ -25,3 +25,6 @@ node_modules/
 
 # WS4-Planung (temporär, noch nicht publik)
 tutorial/slides/ws4-claude-infrastruktur.md
+
+# DHCraft-Slides-Variante (nur lokal, für Apps-Script-Importer)
+tutorial/slides/ws3-datenmodell-deck.dhcraft.md
