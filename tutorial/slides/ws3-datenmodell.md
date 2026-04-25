@@ -27,5 +27,5 @@
 
 ## Verwandte Lektion
 
-- [Lektion 3: Das Datenmodell verstehen](../03-datenmodell-hybrid.md) – die Tutorial-Version der Workshop-Inhalte
+- [Lektion 3: Das Datenmodell verstehen](/03-datenmodell-hybrid.md) – die Tutorial-Version der Workshop-Inhalte
 - [WS3 Cheat Sheet](/ws3-cheatsheet.md) – kompakte Referenz zu Datenmodell und Sheet-Struktur

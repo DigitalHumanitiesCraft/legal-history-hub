@@ -29,5 +29,5 @@
 
 ## Verwandte Lektionen
 
-- [Lektion 1: GenAI und Prompt Engineering](../01-genai-und-prompt-engineering.md) – Grundlagen aus WS1, auf die WS2 aufbaut
-- [Lektion 2: Preparation und Role Models](../02-preparation-und-role-models.md) – Promptotyping-Methodik vertieft
+- [Lektion 1: GenAI und Prompt Engineering](/01-genai-und-prompt-engineering.md) – Grundlagen aus WS1, auf die WS2 aufbaut
+- [Lektion 2: Preparation und Role Models](/02-preparation-und-role-models.md) – Promptotyping-Methodik vertieft

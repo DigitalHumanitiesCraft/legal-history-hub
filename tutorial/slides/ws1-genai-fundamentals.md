@@ -24,4 +24,4 @@
 
 ## Verwandte Lektion
 
-- [Lektion 1: GenAI und Prompt Engineering](../01-genai-und-prompt-engineering.md) – die Tutorial-Version der Workshop-Inhalte
+- [Lektion 1: GenAI und Prompt Engineering](/01-genai-und-prompt-engineering.md) – die Tutorial-Version der Workshop-Inhalte
