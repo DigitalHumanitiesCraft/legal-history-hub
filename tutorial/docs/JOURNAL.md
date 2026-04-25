@@ -94,3 +94,32 @@ Zunächst war Option B (Docsify-Seite + JS-Widget) geplant, umgesetzt wurde am E
 **Aufräumarbeit im Hub-Doc-Set:** Die Hub-Docs (`docs/DATA-MODEL.md`, `docs/JOURNAL.md`, `docs/DESIGN.md`, `docs/ARCHITECTURE.md`, `docs/RESEARCH.md`, `docs/INDEX.md`) wurden gleichzeitig auf das Hybrid-Modell aktualisiert. Bis heute trugen sie noch das flache v1-Schema. Ohne den Umbau wäre jede Claude-Code-Session, die diese Docs als Kontext lädt, am realen Modell vorbeigebaut. Diese Tutorial-Docs haben ebenfalls einen Pass bekommen: REQUIREMENTS.md (Content-Plan aktualisiert), DESIGN.md (Sidebar-Beispiel aktualisiert), und dieses Journal.
 
 **Schreibstil-Regel (Wiederholung):** Keine Em-Dashes (—), keine Doppel-Bindestriche (--). En-Dashes mit Leerzeichen (–) sind ok, sonst Doppelpunkte oder Semikolons. Gilt auch für die promptotyping docs, nicht nur für die Lektionen.
+
+## 2026-04-25 – Tutorial-Tests konsolidiert, vier Live-404er gefixt
+
+**Summary:** Christian meldete weiterhin broken Links auf der Live-Seite, obwohl die lokalen Tests grün waren. Diagnose ergab eine echte Lücke: `check-links.js` und `check-assets-http.js` deckten Docsifys Hash-Router-Verhalten auf GitHub Pages nicht ab. Ergebnis: Test-Set auf zwei Files reduziert (statisch + live), vier `../`-Links in den Slide-Decks repariert, Live-Crawler bestätigt grün.
+
+**Decisions:**
+- **Zwei Test-Files statt drei.** `check-links.js` (statisch, <1s, zero deps) bleibt als erste Verteidigungslinie; neuer `check-live-links.mjs` (Playwright, 10–30s) als Smoke-Test gegen die deployte Seite. `check-assets-http.js` gelöscht – seine Markdown-Asset-Falle wandert als reine Regex in `check-links.js`, der HTTP-HEAD doppelte nur `fs.existsSync`. `check-slide-overflow.mjs` parallel im selben Schritt entfernt, weil im Skill `/marp-slides` jetzt integriert.
+- **`../`-Warning auf ERROR upgraden** statt nur warnen. Live-Verifikation hat bestätigt: aus `slides/ws*-…md` bricht der Hash `#/../X.md` aus `tutorial/` raus, browser-resolvter Fetch landet eine Ebene zu hoch und 404t. Statisch nicht reproduzierbar (Filesystem collapst `..` korrekt), darum war es vorher nur Warning.
+- **Bild-Referenzen in den Static-Check aufgenommen** (vorher explizit ausgeschlossen via Lookbehind). 170 statt 161 Links geprüft.
+- **`tutorial/docs/TESTING.md` als kanonische Stelle** für "welcher Test wann" – inkl. Begründung, warum nicht alles in einem File.
+
+**Dead ends:** Keine. Der Live-Crawler war beim ersten Lauf schon belastbar; Custom-Domain-Resolving (`dhcraft.org/legal-history-hub/tutorial/`) statt der erwarteten `*.github.io`-URL kam unerwartet, hat das Diagnoseergebnis aber nicht geändert.
+
+**Phase:** 4 (Implementation). Alle Tutorial-Promptotyping-Docs aktuell. Neuer Eintrag in `INDEX.md` für TESTING.md.
+
+**Open issues:**
+- Externe HTTP-URLs (Wikipedia, GitHub-Issues, Google-Slides-Links) werden weder statisch noch live geprüft. Wenn so eine URL rotted, merkt das niemand bis Kerstin oder Polina drauf klickt. Lo-fi-Fix wäre ein periodischer External-Link-Scan; bisher kein konkreter Schmerzpunkt.
+- Case-Sensitivität (Win-FS ↔ Linux GH-Pages) wird vom Static-Check toleriert, vom Live-Crawler aber implizit gefangen. Sollte in der Praxis reichen.
+- `_navbar.md` existiert noch nicht; sobald sie kommt, muss sie ebenfalls in den Static-Walk fallen (tut sie automatisch, nur Mahnzettel).
+
+**Next steps:**
+1. WS3-Durchführungstermin mit Kerstin und Polina fixieren (Material liegt seit 15.04. fertig).
+2. WS4-Inhalte aus `tutorial/slides/ws4-claude-infrastruktur.md` zu Slides + Lektion 4 ausarbeiten.
+3. Hybrid-Frontend-Rebuild für den Hub (separater Track, nicht Tutorial): aktueller `index.html`/`js/app.js`-Prototyp basiert auf Flat-Model, Hybrid-JSON-Konsumierung steht aus.
+4. Hinweis: bei nächstem Push den Live-Crawler routinemässig laufen lassen – der GH-Pages-Deploy dauert ~30s, der Test ~15s, also ein 1-Minuten-Sanity-Check.
+
+**Commits dieser Session:**
+- `7aad775` Consolidate tutorial tests: static check-links + live Playwright crawler
+- `768040f` Fix four broken slide-to-lesson links (../path -> /path)
