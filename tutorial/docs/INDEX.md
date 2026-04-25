@@ -21,6 +21,7 @@ Target audience: Kerstin Willburth and Polina (MPIeR Abt. II) – no technical b
 | [RESEARCH.md](RESEARCH.md) | Role models, framework comparison, UX patterns | Onboarding, design decisions |
 | [REQUIREMENTS.md](REQUIREMENTS.md) | User stories, content plan, success criteria | Adding features, planning lessons |
 | [DESIGN.md](DESIGN.md) | Docsify config, layout, navigation, callouts, lesson template | Building UI, styling, writing lessons |
+| [TESTING.md](TESTING.md) | Test-Matrix: was prüft welcher Test, wann, mit welchen Deps | Vor Deploy, nach Test-Refactor, beim Onboarding |
 | [JOURNAL.md](JOURNAL.md) | Chronological decisions and milestones | Progress review |
 
 ## Selective Context Loading

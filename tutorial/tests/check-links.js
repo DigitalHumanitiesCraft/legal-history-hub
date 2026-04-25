@@ -1,11 +1,18 @@
 /**
- * Link Checker for the Tutorial Website
+ * Static Link Checker for the Tutorial Website
  *
- * Validates all internal Markdown links within tutorial/:
- * - File references (e.g., 01-genai-und-prompt-engineering.md)
- * - Anchor links to glossar.md headings (e.g., glossar.md#token)
- * - Relative paths (e.g., ../docs/DESIGN.md)
- * - Image references
+ * Validates internal links within tutorial/ without touching the network:
+ *   - Markdown links [text](url) to .md files: file existence + anchors
+ *   - Image links ![alt](src): file existence
+ *   - Inline HTML <a href> links: file existence (resolved against Docsify root)
+ *   - Markdown asset links [text](file.pdf|zip|...) → ERROR (Docsify rewrites
+ *     them to a hash route and 404s; must be authored as inline HTML <a>)
+ *   - Upward-relative Markdown links "../foo.md" → ERROR (Docsify hash router
+ *     does not collapse ".." reliably; verified with check-live-links.mjs)
+ *
+ * Companion test:
+ *   - check-live-links.mjs    end-to-end smoke test against the deployed site
+ *                             (Playwright, slow, catches router/case quirks)
  *
  * Usage: node tutorial/tests/check-links.js
  */
@@ -14,10 +21,15 @@ const fs = require('fs');
 const path = require('path');
 
 const TUTORIAL_DIR = path.resolve(__dirname, '..');
+const ASSET_EXTENSIONS = ['.pdf', '.zip', '.docx', '.xlsx', '.csv', '.json', '.png', '.jpg', '.jpeg', '.gif', '.svg'];
 const ERRORS = [];
-const WARNINGS = [];
 let filesChecked = 0;
 let linksChecked = 0;
+
+function assetExtension(href) {
+  const pathPart = href.split('#')[0].split('?')[0].toLowerCase();
+  return ASSET_EXTENSIONS.find(ext => pathPart.endsWith(ext));
+}
 
 /**
  * Recursively find all .md files in a directory
@@ -61,16 +73,17 @@ function extractAnchors(content) {
 }
 
 /**
- * Extract all Markdown + inline HTML links from content
+ * Extract Markdown links, image references, and inline HTML <a> links.
  * Returns array of { text, href, line, kind }
- *   kind: 'md' (regular Markdown link) or 'html' (inline <a href>)
- * HTML <a> links get kind 'html' and are treated as browser-resolved (relative
- * to the Docsify root), not as Docsify Hash-Router routes.
+ *   kind: 'md'   regular Markdown link  → Docsify Hash-Router
+ *         'img'  image reference        → browser-resolved
+ *         'html' inline <a href>        → browser-resolved (Docsify root)
  */
 function extractLinks(content) {
   const links = [];
   const lines = content.split('\n');
   const mdLinkRegex = /(?<!!)\[([^\]]*)\]\(([^)]+)\)/g;
+  const imgRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
   const htmlLinkRegex = /<a\s+[^>]*href\s*=\s*["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
 
   let inCodeBlock = false;
@@ -78,22 +91,25 @@ function extractLinks(content) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Toggle fenced code blocks (``` or ~~~)
     if (/^```|^~~~/.test(line.trim())) {
       inCodeBlock = !inCodeBlock;
       continue;
     }
     if (inCodeBlock) continue;
 
-    // Remove inline code spans before checking for links
     const cleaned = line.replace(/`[^`]+`/g, '');
 
     let match;
     mdLinkRegex.lastIndex = 0;
     while ((match = mdLinkRegex.exec(cleaned)) !== null) {
-      // Strip Docsify link helpers: [text](url ':target=_blank')
       const href = match[2].replace(/\s+['"][^'"]*['"]\s*$/, '');
       links.push({ text: match[1], href, line: i + 1, kind: 'md' });
+    }
+
+    imgRegex.lastIndex = 0;
+    while ((match = imgRegex.exec(cleaned)) !== null) {
+      const href = match[2].replace(/\s+['"][^'"]*['"]\s*$/, '');
+      links.push({ text: match[1], href, line: i + 1, kind: 'img' });
     }
 
     htmlLinkRegex.lastIndex = 0;
@@ -121,7 +137,6 @@ function checkLink(link, sourceFile, anchorCache) {
     return;
   }
 
-  // Split href into file path and anchor
   const [filePart, anchorPart] = href.split('#');
   const relPath = path.relative(TUTORIAL_DIR, sourceFile);
 
@@ -135,14 +150,31 @@ function checkLink(link, sourceFile, anchorCache) {
     return;
   }
 
+  // Markdown asset trap: [text](file.pdf|zip|...) gets rewritten by Docsify
+  // to a hash route and 404s. Asset links must be authored as inline HTML.
+  if (kind === 'md' && assetExtension(filePart)) {
+    ERRORS.push(`${relPath}:${line} - Asset link "${href}" uses Markdown syntax; Docsify rewrites it to a hash route and 404s. Use inline HTML: <a href="..." target="_blank" rel="noopener">text</a>`);
+    return;
+  }
+
   // Path resolution depends on link kind:
   //   - Markdown links ([text](url)): Docsify Hash-Router intercepts them.
   //     Relative paths resolve against the source file's directory.
-  //   - Inline HTML links (<a href="url">): the browser resolves them against
-  //     the current page URL, which under Docsify Hash-Routing is always
-  //     TUTORIAL_DIR (the docsify root), regardless of which Markdown source
-  //     rendered the content. This matters for PDFs/assets in subfolders.
+  //   - Image references (![alt](src)): browser-resolved relative to the
+  //     source file's directory (Docsify rewrites src at render time).
+  //   - Inline HTML links (<a href="url">): browser resolves against the
+  //     current page URL, which under Hash-Routing is always TUTORIAL_DIR.
   //   - Absolute hrefs starting with "/" always resolve from TUTORIAL_DIR.
+
+  // Upward-relative Markdown links 404 under Docsify's hash router. Verified
+  // against the live deploy via check-live-links.mjs: from #/slides/foo, the
+  // link "../bar.md" produces a fetch one directory above tutorial/, not
+  // beside it. Use absolute "/bar.md" instead.
+  if (kind === 'md' && filePart.startsWith('../')) {
+    ERRORS.push(`${relPath}:${line} - Upward-relative Markdown link "${filePart}" 404s under Docsify's hash router. Use absolute "/${filePart.replace(/^(\.\.\/)+/, '')}" instead.`);
+    return;
+  }
+
   const sourceDir = path.dirname(sourceFile);
   let targetPath;
   if (filePart.startsWith('/')) {
@@ -175,8 +207,8 @@ function checkLink(link, sourceFile, anchorCache) {
     return;
   }
 
-  // Check anchor within target file
-  if (anchorPart) {
+  // Check anchor within target file (skip for images: PNG/JPG have no anchors)
+  if (anchorPart && kind !== 'img') {
     const resolvedTarget = fs.existsSync(targetPath) ? targetPath : decodedPath;
 
     if (!anchorCache.has(resolvedTarget)) {
