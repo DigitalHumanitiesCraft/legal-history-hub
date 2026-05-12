@@ -12,3 +12,4 @@
 * **Nachschlagen**
   * [Glossar](glossar.md)
   * [WS3 Cheat Sheet](ws3-cheatsheet.md)
+  * [Promptotyping mit Claude Code](promptotyping-claude-code.md)
