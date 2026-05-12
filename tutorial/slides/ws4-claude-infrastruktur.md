@@ -32,3 +32,4 @@
 
 - [Lektion 1: GenAI und Prompt Engineering](/01-genai-und-prompt-engineering.md) – Grundlagen zu Context Windows und Context Engineering, auf denen WS4 aufbaut
 - [Lektion 2: Preparation und Role Models](/02-preparation-und-role-models.md) – Promptotyping-Methodik, Markdown als Source of Truth
+- [Promptotyping mit Claude Code](/promptotyping-claude-code.md) – Kurzanleitung zum Einrichten des Promptotyping-Skills in Claude Code
