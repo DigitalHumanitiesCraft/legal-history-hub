@@ -123,3 +123,25 @@ Zunächst war Option B (Docsify-Seite + JS-Widget) geplant, umgesetzt wurde am E
 **Commits dieser Session:**
 - `7aad775` Consolidate tutorial tests: static check-links + live Playwright crawler
 - `768040f` Fix four broken slide-to-lesson links (../path -> /path)
+
+## 2026-06-11 – WS5-Material nachgezogen: Landing Page, Lektion 7, Glossar
+
+**Summary:** Christian hat das WS5-Folien-PDF (Skills, MCP, Git, Github; Termin 12.06.2026) ins Repo gelegt. Tutorial entsprechend nachgezogen: Landing Page `slides/ws5-skills-mcp-git-github.md` nach WS4-Muster, Lektion 7 (Git und GitHub Basics) als Preread, sechs neue Glossar-Einträge plus MCP-Update, Sidebar und Suchindex erweitert.
+
+**Decisions:**
+- **Lektion 7 als Preread vor dem Workshop**, nicht danach (Abweichung vom Default im Content Plan, von Christian explizit entschieden). Gleiches Muster wie Lektion 3 vor WS3: konzeptuell, ohne offene Tools lesbar. Datei heißt `07-git-und-github-basics.md`; die Nummerierungslücke 3 → 7 folgt dem Content Plan, Lektionen 4 bis 6 kommen nach ihren Workshops.
+- **Glossar wächst mit dem Workshop:** Staging, Push, Pull, Merge (Git-Sektion), Agent und AI-Harness (Werkzeuge-Sektion). MCP-Eintrag erweitert um Tools/Resources/Prompts, USB-C-Analogie und Governance (Agentic AI Foundation unter der Linux Foundation seit Dezember 2025).
+- **Deployment bleibt Lektion 8:** Lektion 7 reißt Push → GitHub Pages nur an, damit die Trennung im Content Plan erhalten bleibt.
+
+**Dead ends:** Das eingebaute PDF-Rendering (pdftoppm/Poppler) fehlt auf dem Windows-System; Textextraktion via pypdf plus Folien-Rendering via PyMuPDF als Workaround. Drei Bildfolien (Harness-Diagramm, /skills-Menü, MCP-Server-Dialog) waren nur so lesbar.
+
+**Phase:** 4 (Implementation, Tutorial-Track). REQUIREMENTS.md (Content Plan, Lesson-07-Details, Glossary growth log) aktuell. Statischer Link-Check grün (23 Dateien, 220 Links).
+
+**Open issues:**
+- WS3 ist laut Projektstatus weiterhin nicht durchgeführt (Material seit 15.04. fertig); WS4 und WS5 laufen vorher bzw. parallel. Reihenfolge der Lektionen 4 bis 6 hängt daran.
+- Lektion 8 (Deployment auf GitHub Pages) steht aus, sinnvoll direkt nach WS5.
+
+**Next steps:**
+1. WS5 am 12.06.2026 durchführen.
+2. Nach dem Workshop: Lektion 8 (Deployment) schreiben, ggf. Lektion 7 um Erkenntnisse aus dem Workshop ergänzen.
+3. Live-Crawler nach jedem Push laufen lassen (GH-Pages-Deploy ~30s, Test ~15s).

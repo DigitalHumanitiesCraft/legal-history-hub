@@ -119,8 +119,14 @@ Vorab-Anweisungen, die das Verhalten eines LLM für die gesamte Konversation ste
 
 ## Werkzeuge: Claude Code und Co.
 
+### Agent
+Ein KI-System, das nicht nur einmalig Text generiert, sondern in einer Schleife arbeitet: beobachten, handeln (über Tools), Ergebnis prüfen, weitermachen. Ein Agent entsteht aus einem [LLM](#llm) plus [AI-Harness](#ai-harness). Claude Code ist ein Agent.
+
 ### Agentic Coding
 LLM-gestütztes Programmieren, bei dem ein KI-Agent autonom Dateien liest, Code schreibt, Tests ausführt und Fehler behebt. Der Mensch formuliert Anforderungen und bewertet Ergebnisse. Werkzeuge: Claude Code, GitHub Copilot, Codex. Siehe auch [Vibe Coding](#vibe-coding).
+
+### AI-Harness
+Die Architekturschicht, die ein Sprachmodell zu einem [Agent](#agent) erweitert. Das Modell allein generiert nur Text; der Harness liefert die nicht-modellintrinsischen Funktionen: Loop (Arbeitsschleife), Tools und [Skills](#skill), Memory, Permissions, Hooks. Analogie aus WS5: Harness = Betriebssystem, Modell = CPU, [Context Window](#context-window) = RAM, Agent = Anwendung. Coding-Harnesses: Claude Code, GitHub Copilot, OpenAI Codex, Gemini CLI, Cursor.
 
 ### Claude in Chrome
 Nativ eingebaute Browser-Integration in Claude Code (nicht zu verwechseln mit [MCP](#mcp)). Besteht aus der offiziellen Chrome-Extension *„Claude in Chrome"* plus einem Native Messaging Host, den Claude Code beim ersten Aufruf installiert. **Aktivierung hängt von der Runtime ab:** im Terminal (CLI) per `claude --chrome` beim Start oder `/chrome` in laufender Session; in der **VS-Code-Extension** gibt es `/chrome` **nicht**, stattdessen startet man die Browser-Steuerung per `@browser`-Mention im Prompt-Feld (siehe [VS-Code-Docs](https://code.claude.com/docs/en/vs-code#automate-browser-tasks-with-chrome)). Derzeit Beta, nur Google Chrome (kein Brave/Arc, kein WSL). Tools tauchen im `/mcp`-Menü unter `claude-in-chrome` auf, sind aber nicht über `.mcp.json` konfiguriert.
@@ -135,7 +141,7 @@ Ein leichtgewichtiges Tool, das Markdown-Dateien direkt im Browser als Website a
 Eine einfache Textauszeichnungssprache. Statt HTML-Tags schreibt man `# Überschrift`, `**fett**`, `[Link](url)`. Dieses Tutorial ist in Markdown geschrieben. Gut für LLMs, weil tokeneffizient und in den Trainingsdaten stark vertreten.
 
 ### MCP
-**Model Context Protocol** – ein offener Standard, über den externe Dienste einer KI neue Fähigkeiten anbieten (Dateizugriff, APIs, verschiedene Tools). MCP-Plugins sind separate Werkzeuge, nicht Teil des LLM, werden über eine `.mcp.json`-Datei konfiguriert. Beispiele: Google-Sheets-MCP, Filesystem-MCP, GitHub-MCP. (Die Chrome-Integration in Claude Code ist **kein** MCP-Plugin, sondern nativ eingebaut: siehe [Claude in Chrome](#claude-in-chrome).)
+**Model Context Protocol** – ein offener Standard, über den externe Dienste einer KI neue Fähigkeiten anbieten (Dateizugriff, APIs, verschiedene Tools). Drei Grundbausteine: Tools (Aktionen ausführen), Resources (Daten lesen), Prompts (Vorlagen bereitstellen). Analogie: ein USB-C-Anschluss für KI-Anwendungen. Seit Dezember 2025 wird der Standard von der Agentic AI Foundation unter der Linux Foundation verwaltet (mitgegründet von Anthropic, OpenAI und Block); unterstützt wird er u. a. von Claude, ChatGPT, Gemini und GitHub Copilot. MCP-Plugins sind separate Werkzeuge, nicht Teil des LLM, werden über eine `.mcp.json`-Datei konfiguriert. Beispiele: Google-Sheets-MCP, Filesystem-MCP, GitHub-MCP. (Die Chrome-Integration in Claude Code ist **kein** MCP-Plugin, sondern nativ eingebaut: siehe [Claude in Chrome](#claude-in-chrome).)
 
 ### Script
 Deterministische Automatisierung in einer Programmiersprache (Python, Shell). Gleicher Input → gleicher Output. Im Hub-Kontext: `scripts/build-hub-data.py` baut `projects.json` aus den CSVs. Claude Code schreibt und pflegt Scripts, ruft sie über Bash auf. **Bewusst unterschieden von** [Skill](#skill): ein Script ist keine Skill, weil sein Wert nicht in Claudes Urteil liegt, sondern in der Reproduzierbarkeit.
@@ -212,11 +218,23 @@ Eine Plattform für die Zusammenarbeit an Code-Projekten, basierend auf Git. Bie
 ### GitHub Pages
 Ein kostenloser Hosting-Dienst von GitHub. Man lädt Dateien in ein Repository hoch, und GitHub macht daraus eine Website. Der Legal History Hub und dieses Tutorial werden so gehostet.
 
+### Merge
+Das Zusammenführen eines [Branch](#branch) zurück in den Hauptstrang. Nach dem Merge enthält der Hauptbranch (`main`) alle Änderungen aus dem Feature-Branch.
+
+### Pull
+Änderungen von [GitHub](#github) auf den eigenen Rechner holen (`git pull`). Die Gegenrichtung zu [Push](#push). Nötig, wenn andere (oder Claude Code in einer anderen Session) am Projekt gearbeitet haben.
+
 ### Pull Request
 **PR** – eine Anfrage auf [GitHub](#github), einen [Branch](#branch) in den Hauptbranch zu mergen. Andere können den Code vorher ansehen und kommentieren. Coding Agents wie Claude Code können Pull Requests automatisch erstellen. (Auf GitLab: „Merge Request".)
 
+### Push
+Lokale [Commits](#commit) vom eigenen Rechner zu [GitHub](#github) hochladen (`git push`). Erst nach dem Push sehen andere die Änderungen. Beim Hub löst ein Push nach `main` automatisch die Veröffentlichung über [GitHub Pages](#github-pages) aus.
+
 ### Repository
 Ein Projektordner auf GitHub, der alle Dateien eines Projekts enthält – inklusive der gesamten Änderungshistorie. Der Hub hat ein Repository, das Tutorial lebt darin als Unterordner.
+
+### Staging
+Änderungen vormerken, die in den nächsten [Commit](#commit) sollen (`git add`). Wie ein Warenkorb vor dem Bestellen: Man legt hinein, was zusammengehört, und lässt liegen, was noch nicht fertig ist.
 
 ---
 

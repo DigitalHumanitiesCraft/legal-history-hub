@@ -56,14 +56,16 @@ The plan mirrors project progress. Lessons are written after the corresponding w
 | 04 | Google Sheets als CMS einrichten (Tables, Dropdowns, Filter Views) | 2 | WS3 | Must |
 | 05 | Von der Idee zum Code mit Claude Code | 3 | WS2 follow-up | Must |
 | 06 | Den Hub verstehen: Wie der Code funktioniert | 3 | – | Must |
-| 07 | Git und GitHub Basics | 4 | WS5 | Must |
+| 07 | Git und GitHub Basics | 4 | WS5 preread | Done |
 | 08 | Deployment auf GitHub Pages | 4 | WS5 | Must |
 | 09 | Eigene Änderungen am Hub | 4 | WS6 | Should |
 | 10 | Troubleshooting und Debugging | 5 | WS6 | Should |
 | 11 | SEO und Barrierefreiheit | 5 | – | Nice |
 | 12 | Wartung und Weiterentwicklung | 6 | – | Nice |
 
-**Order rationale:** Lektion 3 (Datenmodell) comes before Lektion 4 (Google Sheets als CMS) because the CMS lesson depends on the hybrid-model vocabulary (wide, long, junction table, vocabulary, authority, _helpers). Lektion 3 is conceptual and readable without Sheets open; Lektion 4 is hands-on and assumes Lektion 3 already happened. Lektionen 5-8 will be written around WS4 / WS5 once the workshops have produced their material.
+**Order rationale:** Lektion 3 (Datenmodell) comes before Lektion 4 (Google Sheets als CMS) because the CMS lesson depends on the hybrid-model vocabulary (wide, long, junction table, vocabulary, authority, _helpers). Lektion 3 is conceptual and readable without Sheets open; Lektion 4 is hands-on and assumes Lektion 3 already happened. Lektionen 5, 6 and 8 will be written once the corresponding workshops have produced their material. Lektion 7 was written out of order (2026-06-11) as preread for WS5, same pattern as Lektion 3 for WS3: conceptual, readable without tools open.
+
+**Lesson 07 details:** Written 2026-06-11 as preread for WS5 (12.06.2026). Explains version control, Git vs. GitHub (local vs. remote), the basic cycle (staging, commit, push, pull), collaboration terms (branch, merge, pull request), and why these terms matter when Claude Code performs Git operations automatically (control + safety net, Promptotyping savepoints). Deployment (push to main → GitHub Pages) is only touched on; Lektion 8 covers it.
 
 **Lesson 01 details:** Based on WS1 slides (48 folien, [Google Slides](https://docs.google.com/presentation/d/1Jy3BvZ334gw_-B_5wEwoItzlZaQDsDtFfx0HCUOaWGE)). Topics: LLM functioning, tokenization, embeddings, pre/post-training, sycophancy, context windows, prompt engineering, context engineering, Promptotyping introduction.
 
@@ -84,7 +86,7 @@ Christopher's existing glossary at `https://github.com/chpollin/llmdh/tree/main/
 
 Decision: integrated as native Docsify Markdown (`tutorial/glossar.md`) rather than as an embedded JS widget. Docsify generates anchor IDs automatically from headings (`### Context Rot` → `#context-rot`), and the built-in search indexes the glossary. Lessons link via `glossar.md#begriff`. Upgrade path to a JS widget remains open if native features turn out to be insufficient.
 
-**Glossary growth log:** WS1 baseline from llmdh → +14 entries after WS2 (web basics, git, coding paradigms, Distillation) → more entries planned after WS3 (wide, long, tidy, 1NF, junction table, foreign key, singleton, enum, authority file, PID, FAIR, derived view, spill range, pivot/melt).
+**Glossary growth log:** WS1 baseline from llmdh → +14 entries after WS2 (web basics, git, coding paradigms, Distillation) → more entries planned after WS3 (wide, long, tidy, 1NF, junction table, foreign key, singleton, enum, authority file, PID, FAIR, derived view, spill range, pivot/melt) → +6 entries with the WS5 preread (Staging, Push, Pull, Merge, Agent, AI-Harness) plus an updated MCP entry (Agentic AI Foundation, Tools/Resources/Prompts, USB-C analogy).
 
 ## Success Criteria
 
