@@ -145,3 +145,21 @@ Zunächst war Option B (Docsify-Seite + JS-Widget) geplant, umgesetzt wurde am E
 1. WS5 am 12.06.2026 durchführen.
 2. Nach dem Workshop: Lektion 8 (Deployment) schreiben, ggf. Lektion 7 um Erkenntnisse aus dem Workshop ergänzen.
 3. Live-Crawler nach jedem Push laufen lassen (GH-Pages-Deploy ~30s, Test ~15s).
+
+## 2026-08-14 – v1-Hub aus dem Root entfernt, Repo auf die Empowerment-Schiene reduziert
+
+**Summary:** Der Flat-Model-Prototyp im Repository-Root (`index.html`, `css/`, `js/`, `data/GSHEET.md`) wurde gelöscht. Der Hub wird seit Juni 2026 vollständig im Repository des Instituts entwickelt; der Prototyp hier war ein Lernartefakt aus der Workshop-Phase. Er lag zuletzt öffentlich kaputt unter dhcraft.org/legal-history-hub/: `js/app.js` holte `data/projects.json`, und diese Datei war nie im Repo (404 auf der Live-Seite, Root selbst 200). Statt des Prototyps steht dort jetzt eine schlanke Landing Page, die auf Tutorial und Workshop-Material zeigt.
+
+**Decisions:**
+- **`docs/` bleibt.** Es dokumentiert die Modellierungsphase (Flat vs. relational vs. hybrid) und wird aus Lektion 2 heraus verlinkt. Ab jetzt als eingefroren behandeln: der gültige Stand der Hub-Anwendung steht im Institutsrepo, nicht hier.
+- **`robots.txt` unverändert** (`Disallow: /`). Ob das Tutorial indexierbar sein soll, ist eine offene Entscheidung und wurde hier nicht mitentschieden.
+- **`.nojekyll` bleibt**, sonst liefert GitHub Pages `tutorial/_sidebar.md` nicht aus.
+- README und CLAUDE.md beschreiben das Repo jetzt als reine Empowerment-Schiene, inklusive der Testkommandos, die vorher nirgends standen.
+
+**Nicht angefasst:** Die WS3-Folien, das Glossar und `tutorial/docs/` beschreiben weiterhin die Python-Pipeline (`scripts/build-hub-data.py` → `projects.json`), die die gebaute Anwendung nie verwendet hat. Ausgelieferte Workshop-Materialien werden nicht rückwirkend umgeschrieben; wenn Lektion 8 (Deployment) kommt, ist das die Stelle, an der die reale Pipeline erklärt wird.
+
+**Phase:** 4 (Implementation, Tutorial-Track). Statischer Link-Check nach der Löschung grün (23 Dateien, 220 Links).
+
+**Open issues:**
+- WS6 ("Eigene Projekte umsetzen") steht aus, ebenso die Lektionen 4 bis 6 und Lektion 8.
+- Live-Crawler nach dem Push laufen lassen, die Root-Seite ist neu.

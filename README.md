@@ -4,23 +4,23 @@ Metadaten-Portal für die Forschungsprojekte der Abteilung II des [Max-Planck-In
 
 ## Status
 
-Projekt läuft (Angebot 27/25, 12 Monate). v1-Prototyp mit Flat-Model existiert; Rebuild auf Hybrid-Datenmodell (9-Tab Google Sheet) ist für die Folge-Workshops vorbereitet. Workshop-Reihe 1–3 durchgeführt bzw. vorbereitet, Lektionen 1–3 im Tutorial verfügbar.
+Projekt läuft (Angebot 27/25, 12 Monate). **Dieses Repository trägt nur noch die Empowerment-Schiene**: Tutorial, Workshop-Materialien und die zugehörigen Promptotyping-Dokumente. Die Hub-Anwendung selbst wird seit Juni 2026 im Repository des Instituts entwickelt.
+
+Workshops 1 bis 5 durchgeführt, Lektionen 1 bis 3 und 7 im Tutorial verfügbar.
 
 ## Komponenten
 
 | Komponente | Beschreibung | Pfad |
 |---|---|---|
-| **Hub** | Discovery-Layer für Projektmetadaten | [`/`](index.html) |
 | **Tutorial** | Lernressource, Workshop-Materialien, Glossar | [`/tutorial/`](tutorial/) |
-| **Docs** | Promptotyping-Dokumente (LLM-Kontext) | [`/docs/`](docs/) |
+| **Docs** | Promptotyping-Dokumente aus der Modellierungsphase (LLM-Kontext) | [`/docs/`](docs/) |
+
+Der Prototyp mit Flat-Model, der bis August 2026 im Root lag (`index.html`, `css/`, `js/`, `data/`), war ein Lernartefakt aus der Workshop-Phase und ist entfernt. Er bleibt über die Git-Historie erreichbar (letzter Stand: `53aa600`).
 
 ## Tech Stack
 
-- **CMS:** Google Sheets mit Tables-Feature (9-Tab-Hybrid-Modell) + Sheets API
-- **Build:** Python-Script (`scripts/build-hub-data.py`), aufgerufen via Claude Code
-- **Runtime-Daten:** statisches `data/projects.json` (generiert)
-- **Frontend:** Vanilla JavaScript, Bootstrap 5
 - **Tutorial:** Docsify (Markdown im Browser, kein Build-Schritt)
+- **Tests:** `tutorial/tests/` (statischer Link-Check, Playwright-Crawler)
 - **Hosting:** GitHub Pages
 
 ## Projekt
