@@ -163,3 +163,30 @@ Zunächst war Option B (Docsify-Seite + JS-Widget) geplant, umgesetzt wurde am E
 **Open issues:**
 - WS6 ("Eigene Projekte umsetzen") steht aus, ebenso die Lektionen 4 bis 6 und Lektion 8.
 - Live-Crawler nach dem Push laufen lassen, die Root-Seite ist neu.
+
+## 2026-08-14 – Tutorial auf den realen Stand gezogen: neue Referenzseite, Lektion 3 und 7 korrigiert
+
+**Summary:** Das Lernmaterial beschrieb bis heute eine Pipeline, die es nie gab (Python-Script → `projects.json`, im Browser nachgeladen), und kannte den `outputs`-Tab nicht, obwohl er die inhaltlich größte Änderung am Modell seit Workshop 3 ist. Beides ist nachgezogen. Grundlage waren der gebaute Code und die Beschlüsse des Team-Calls vom 9. Juli 2026, nicht das Gedächtnis.
+
+**Neu:** `tutorial/vom-sheet-zur-website.md` (Nachschlagen-Sektion). Beschreibt den heutigen Weg in fünf Schritten (holen über die Sheets-API, prüfen, bauen, veröffentlichen auf Zuruf, Daten zurückschreiben), das Zwei-Ebenen-Modell mit `outputs`, die Freigabe über `verified` samt der drei Sicherungen, die Staging-Vorschau als Ort der redaktionellen Prüfung, die drei redaktionellen Regeln zu Outputs (Auswahl, keine Paywall-Links, Print über `citation` im Rg-Stil) und eine Symptomtabelle für den Fehlerfall.
+
+**Korrigiert:**
+- **Lektion 3:** Stand-Hinweis oben; neuer Abschnitt zum `outputs`-Tab und warum er weder wide noch long im bisherigen Sinn ist; `verified` und `featured` erklärt; Rolle `PI` → `project-lead`; `vocabulary` um `language_values` und `resource_types` ergänzt; `authority` um Epochen und Koordinaten ergänzt.
+- **Lektion 7:** „Push nach `main` veröffentlicht automatisch" galt nur für diese Tutorial-Seite, nicht für den Hub. Dazu die vereinbarte Arbeitsweise ergänzt: kein direkter Commit auf `main`, alles über Branch und Pull Request, Code Review vor jedem Merge.
+- **Glossar:** Einträge `Script`, `Deployment`, `Push`, `Repository` und `Vocabulary` berichtigt; neue Kategorie „Der Hub im Betrieb" mit Build, CC0 1.0, Freigabe (`verified`), Output, records.json, Staging-Vorschau und Validierung.
+- **Cheat Sheet:** Build-Prompt und Skill-vs-Script-Tabelle ohne das Python-Script; Verweis auf die neue Seite.
+- **WS3-Landing-Page:** datierter Hinweis, welche zwei Punkte der Folien überholt sind.
+- **REQUIREMENTS.md:** Erfolgskriterium 1 nennt den realen Ablauf statt des nie gebauten Scripts.
+
+**Decisions:**
+- **Die Foliensätze bleiben unverändert.** Sie sind die Mitschrift eines gehaltenen Workshops; rückwirkendes Umschreiben würde die Historie verfälschen und HTML- und PDF-Export nach sich ziehen. Die Korrektur steht auf der Landing Page davor und in der neuen Referenzseite.
+- **Aus dem Team-Call ist nur übernommen, was die redaktionelle Arbeit betrifft.** Personen, interne Zuständigkeiten, Kosten- und Anbieterfragen sowie die Staging-Adresse bleiben draußen: dieses Repository ist öffentlich.
+- **Wo Beschluss und Umsetzung auseinandergehen, gilt die Umsetzung.** Print-Publikationen etwa wurden im Call als `print`-Haken plus umgewidmeter `url1` beschlossen, gebaut wurde eine eigene `citation`-Spalte. Das Tutorial beschreibt die Spalte.
+- **Der Deployment-Stoff bleibt für Lektion 8 reserviert.** Die neue Seite ist eine Referenz zum Nachschlagen, kein Lektionsersatz, und steht deshalb unter „Nachschlagen".
+
+**Verifiziert, nicht angenommen:** Spaltennamen und Enum-Werte gegen die CSV-Köpfe und die Pflichtspalten-Liste des Validators; die Kartenlogik gegen den Code (redaktionelle Koordinaten haben Vorrang, Wikidata ist nur Fallback für ungepflegte Regionen, deshalb steht es jetzt so in Lektion 3 und nicht als „Wikidata entfällt"); Deploy- und Staging-Namen gegen die Workflow-Dateien. Statischer Link-Check grün: 24 Dateien, 245 Links.
+
+**Open issues:**
+- Lektion 8 (Deployment) steht weiterhin aus und ist der Ort, an dem der Bauschritt didaktisch statt referenziell erklärt gehört.
+- Die WS3-Folien bleiben inhaltlich überholt. Falls sie noch einmal aktiv im Unterricht verwendet werden, wäre eine korrigierte Zweitfassung sinnvoller als eine Änderung am Original.
+- Die Lektionen 4 bis 6 fehlen unverändert; die Sidebar springt von 3 auf 7.

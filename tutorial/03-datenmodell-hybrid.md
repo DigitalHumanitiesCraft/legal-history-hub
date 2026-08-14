@@ -6,6 +6,8 @@
 **Dauer:** ca. 25 Minuten
 **Voraussetzungen:** keine, nur Neugier
 
+> **Stand August 2026.** Diese Lektion entstand vor Workshop 3 im April 2026. Das Modell hat sich seither an zwei Stellen weiterentwickelt: es ist ein Tab dazugekommen (`outputs`, die Ergebnisse der Projekte), und aus dem Sheet ist inzwischen eine gebaute Website geworden, was zwei Spalten in `core` eine besondere Bedeutung gibt. Beides ist unten eingearbeitet. Wie die Daten heute tatsächlich auf die Website kommen, steht in [Vom Sheet zur Website](vom-sheet-zur-website.md).
+
 ## Worum geht es?
 
 Der Legal History Hub hat ein **Datenmodell**, also eine Vorschrift, wie Projekt-Informationen in einer Tabelle stehen. Diese Vorschrift ist nicht beliebig: Sie ist so gewählt, dass
@@ -99,6 +101,23 @@ Das Ergebnis: unser Sheet hat **einen breiten Tab (core)** für die Einzelwerte 
 
 Wide **und** long, nicht entweder-oder. Deshalb **Hybrid**.
 
+### Der Nachzügler: `outputs`
+
+Seit dem Workshop ist ein sechster Tab dazugekommen, und der passt in keine der beiden Schubladen: **`outputs`**, die Ergebnisse der Projekte. Eine Zeile ist dort keine Beziehung, sondern ein eigener Gegenstand: eine Edition, ein Aufsatz, ein Datensatz, ein Blogpost.
+
+Der Unterschied zu den fünf langen Tabs ist wichtig. In `people` steht eine Verknüpfung („diese Person gehört zu diesem Projekt"), und die Zeile hat außer der Rolle nichts Eigenes. Ein Output dagegen hat eine eigene ID (`output_id`), einen Typ, eine Lizenz, Links und eigene Beschreibungen in drei Sprachen. Er ist ein **eigenständiger Datensatz**, der zufällig zu einem Projekt gehört, und nicht ein Attribut des Projekts.
+
+Deshalb sagen wir: das Modell hat **zwei Ebenen**. Eine Kachel auf der Website ist ein Projekt; die Ergebnisse sind eigene, einzeln zitierbare Einträge auf der Projektseite. Der Typ-Filter auf der Übersichtsseite wird daraus **abgeleitet**: er zeigt die Projekte, die mindestens ein Ergebnis des gewählten Typs haben. Am Projekt selbst gibt es keine Typ-Spalte.
+
+### Zwei Spalten in `core` mit besonderer Wirkung
+
+Zwei Ja-Nein-Spalten in `core` sehen harmlos aus und entscheiden trotzdem, was Besucherinnen der Website sehen:
+
+- **`verified`**: die redaktionelle Freigabe. Die veröffentlichte Website enthält **ausschließlich** Projekte mit `verified = TRUE`. Nicht freigegebene Projekte bekommen keine Seite, tauchen in keiner Suchmaschinen-Sitemap auf und stehen in keiner Datenausgabe.
+- **`featured`**: Hervorhebung auf der Startseite. Die Startseite zeigt höchstens sechs Projekte. Stehen mehr auf TRUE, wird eines still nicht angezeigt, und die Redaktion sollte auswählen.
+
+Details dazu in [Vom Sheet zur Website](vom-sheet-zur-website.md).
+
 ## Ein Exkurs: Normalformen und warum wir nicht ganz relational werden
 
 In der Datenbanktheorie gibt es neben der **1NF** (keine Wiederholungsgruppen) auch die **2NF** und **3NF** (weiter verfeinerte Regeln, wie man Redundanz aus Daten entfernt). Der Prozess heißt **Normalisierung**. Ein perfekt normalisiertes Modell hätte für jeden Entitätstyp eine eigene Tabelle (Projekte, Personen, Institutionen, Themen) und dazwischen Junction Tables mit Foreign Keys. Keine Wiederholungen, keine Redundanz.
@@ -140,7 +159,7 @@ Hinter jedem Dropdown steht eine **Liste**, die von irgendwoher kommt. In unsere
 
 ### Stufe 1: `vocabulary` ist die Vorschrift
 
-Manche Werte sind **fest gegeben**. Ein Projekt-Status ist entweder `active`, `completed` oder `planned`. Es gibt keine vierte Möglichkeit. Eine Person-Rolle ist `PI`, `researcher`, `project-coordinator` oder `student-assistant`. Mehr ist nicht vorgesehen.
+Manche Werte sind **fest gegeben**. Ein Projekt-Status ist entweder `active`, `completed` oder `planned`. Es gibt keine vierte Möglichkeit. Eine Person-Rolle ist `project-lead`, `researcher`, `project-coordinator` oder `student-assistant`. Mehr ist nicht vorgesehen.
 
 In der Programmier- und Datenbanksprache nennt man so eine geschlossene Liste zulässiger Werte ein **Enum** (kurz für *enumeration*, Aufzählung). In den Digital Humanities spricht man auch von **kontrolliertem Vokabular**: eine bewusst kleine, verbindliche Wortliste, aus der man auswählt, statt frei zu formulieren.
 
@@ -151,6 +170,10 @@ Solche Enums wohnen im Tab **`vocabulary`**. Kurze Spalten, feste Werte, keine Z
 - `person_roles` (Rollen in people)
 - `institution_relations` (Beziehungsarten in institutions)
 - `status_values` (Projekt-Status in core)
+- `language_values` (Sprachen der Ergebnisse in outputs)
+- `resource_types` (Typen der Ergebnisse in outputs, zum Beispiel `journal article`, `digital edition`, `dataset`)
+
+Die letzten beiden sind mit dem `outputs`-Tab dazugekommen. Der Tab ist selbst **wide** aufgebaut: eine Spalte pro Liste, die Werte stehen untereinander. Die Spalten sind unterschiedlich lang, und das ist so gewollt.
 
 Merksatz: *vocabulary ist Vorschrift.* Was nicht drin ist, darf nicht eingetragen werden.
 
@@ -173,6 +196,10 @@ Diese Persistent Identifiers sind zentral für die **FAIR-Prinzipien** der digit
 - Personen (mit ORCID)
 - Institutionen (mit GND, ROR)
 - Themen, Regionen, Keywords (mit GND, Wikidata, wenn möglich)
+- Epochen (`type = epoch`), also die Zeitraum-Werte, die `core.period` verwenden darf
+- Zu Regionen zusätzlich **Koordinaten** (`latitude`, `longitude`) für die Kartenansicht
+
+Die Karte nimmt die **redaktionellen Koordinaten, wenn sie da sind**, und fragt nur für ungepflegte Regionen bei Wikidata nach. Je vollständiger `authority` gepflegt ist, desto weniger fragt die Karte nach außen. Der zweite Grund ist inhaltlich: Wikidata verortet „Europa" bei Stuttgart, was für einen Rechtsgeschichte-Hub keine brauchbare Aussage ist. Gepflegte Koordinaten sitzen dort, wo sie hingehören.
 
 Merksatz: *authority ist Nachschlagewerk.* Wer da drin steht, wird automatisch mit Zusatzinformationen angereichert.
 

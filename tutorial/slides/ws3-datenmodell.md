@@ -6,6 +6,8 @@
 **Dauer:** 4 Stunden (Remote)
 **Leitung:** Christian Steiner
 
+> **Hinweis zum Stand.** Die Folien geben den Stand von April 2026 wieder und bleiben als Mitschrift unverändert. Zwei Punkte darin sind überholt: der Bauschritt ist kein Python-Script, das eine Datei `projects.json` schreibt, und das Modell hat inzwischen einen Tab mehr (`outputs`). Der aktuelle Weg vom Sheet auf die Website steht in [Vom Sheet zur Website](/vom-sheet-zur-website.md). Das Datenmodell selbst, also wide gegen long, vocabulary, authority und `_helpers`, gilt unverändert.
+
 ## Themen
 
 - Wide, Long und Tidy: Daten-Formate und warum das Sheet so aussieht, wie es aussieht

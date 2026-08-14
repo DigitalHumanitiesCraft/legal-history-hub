@@ -13,6 +13,7 @@ Die Einträge sind nach **Kontext** sortiert: *„Wann brauche ich diesen Begrif
 5. [Git und Versionierung](#git-und-versionierung) – Repos, Commits, Zusammenarbeit
 6. [Datenmodell in Google Sheets](#datenmodell-in-google-sheets) – Wide, Long, Tables, Formeln
 7. [Normdaten und PIDs](#normdaten-und-pids) – Authority, ORCID, FAIR
+8. [Der Hub im Betrieb](#der-hub-im-betrieb) – Bauen, Prüfen, Freigeben, Veröffentlichen
 
 ---
 
@@ -144,7 +145,7 @@ Eine einfache Textauszeichnungssprache. Statt HTML-Tags schreibt man `# Übersch
 **Model Context Protocol** – ein offener Standard, über den externe Dienste einer KI neue Fähigkeiten anbieten (Dateizugriff, APIs, verschiedene Tools). Drei Grundbausteine: Tools (Aktionen ausführen), Resources (Daten lesen), Prompts (Vorlagen bereitstellen). Analogie: ein USB-C-Anschluss für KI-Anwendungen. Seit Dezember 2025 wird der Standard von der Agentic AI Foundation unter der Linux Foundation verwaltet (mitgegründet von Anthropic, OpenAI und Block); unterstützt wird er u. a. von Claude, ChatGPT, Gemini und GitHub Copilot. MCP-Plugins sind separate Werkzeuge, nicht Teil des LLM, werden über eine `.mcp.json`-Datei konfiguriert. Beispiele: Google-Sheets-MCP, Filesystem-MCP, GitHub-MCP. (Die Chrome-Integration in Claude Code ist **kein** MCP-Plugin, sondern nativ eingebaut: siehe [Claude in Chrome](#claude-in-chrome).)
 
 ### Script
-Deterministische Automatisierung in einer Programmiersprache (Python, Shell). Gleicher Input → gleicher Output. Im Hub-Kontext: `scripts/build-hub-data.py` baut `projects.json` aus den CSVs. Claude Code schreibt und pflegt Scripts, ruft sie über Bash auf. **Bewusst unterschieden von** [Skill](#skill): ein Script ist keine Skill, weil sein Wert nicht in Claudes Urteil liegt, sondern in der Reproduzierbarkeit.
+Deterministische Automatisierung in einer Programmiersprache (JavaScript, Python, Shell). Gleicher Input → gleicher Output. Im Hub-Kontext: der [Build](#build) liest die Tabs, prüft sie und schreibt die fertigen Seiten. Claude Code schreibt und pflegt solche Scripts und ruft sie über Bash auf. **Bewusst unterschieden von** [Skill](#skill): ein Script ist keine Skill, weil sein Wert nicht in Claudes Urteil liegt, sondern in der Reproduzierbarkeit.
 
 ### Skill
 Wiederverwendbarer Prompt für Claude Code. Ein Skill lebt in einem **Ordner** mit einer `SKILL.md`-Datei darin (plus optional weitere Hilfsdateien). Aufruf über `/`-Befehl. Kein Makro, sondern ein Prompt-Wrapper: Claude lädt die Anweisungen und führt sie situativ aus, mit Urteil.
@@ -173,7 +174,7 @@ LLM-generierten Code ausprobieren, ohne ihn im Detail zu verstehen. Geprägt von
 **Cascading Style Sheets** – die Sprache, die bestimmt, wie eine Website aussieht: Farben, Schriftarten, Abstände, Layout. Zusammen mit [HTML](#html) und [JavaScript](#javascript) eine der drei Sprachen des Webs.
 
 ### Deployment
-Das Veröffentlichen einer Website oder Anwendung, sodass sie im Internet erreichbar ist. Beim Hub: Code auf GitHub pushen, GitHub Pages stellt die Seite automatisch bereit.
+Das Veröffentlichen einer Website oder Anwendung, sodass sie im Internet erreichbar ist. Beim Tutorial: pushen genügt, GitHub Pages stellt die Seite automatisch bereit. **Beim Hub nicht:** dort wird der Deploy bewusst von Hand angestoßen (GitHub Actions → *Deploy (on demand)*), damit vorher geholt, geprüft und gebaut werden kann. Siehe [Vom Sheet zur Website](vom-sheet-zur-website.md).
 
 ### Frontend / Backend
 **Frontend:** Was im Browser passiert. [HTML](#html), [CSS](#css), [JavaScript](#javascript). Das sehen die Nutzer. **Backend:** Was auf dem Server passiert. Datenbanken, Logik, Authentifizierung. Unsichtbar für den Nutzer. Der Legal History Hub ist ein reines Frontend-Projekt.
@@ -228,10 +229,10 @@ Das Zusammenführen eines [Branch](#branch) zurück in den Hauptstrang. Nach dem
 **PR** – eine Anfrage auf [GitHub](#github), einen [Branch](#branch) in den Hauptbranch zu mergen. Andere können den Code vorher ansehen und kommentieren. Coding Agents wie Claude Code können Pull Requests automatisch erstellen. (Auf GitLab: „Merge Request".)
 
 ### Push
-Lokale [Commits](#commit) vom eigenen Rechner zu [GitHub](#github) hochladen (`git push`). Erst nach dem Push sehen andere die Änderungen. Beim Hub löst ein Push nach `main` automatisch die Veröffentlichung über [GitHub Pages](#github-pages) aus.
+Lokale [Commits](#commit) vom eigenen Rechner zu [GitHub](#github) hochladen (`git push`). Erst nach dem Push sehen andere die Änderungen. Beim Tutorial löst ein Push nach `main` die Veröffentlichung über [GitHub Pages](#github-pages) aus. Beim Hub **nicht**: dort ist Veröffentlichen ein eigener, von Hand angestoßener Schritt (siehe [Deployment](#deployment)).
 
 ### Repository
-Ein Projektordner auf GitHub, der alle Dateien eines Projekts enthält – inklusive der gesamten Änderungshistorie. Der Hub hat ein Repository, das Tutorial lebt darin als Unterordner.
+Ein Projektordner auf GitHub, der alle Dateien eines Projekts enthält – inklusive der gesamten Änderungshistorie. Das Projekt hat **zwei** Repositorys: eines beim Institut mit dem Hub selbst, und dieses hier mit Tutorial und Workshop-Material.
 
 ### Staging
 Änderungen vormerken, die in den nächsten [Commit](#commit) sollen (`git add`). Wie ein Warenkorb vor dem Bestellen: Man legt hinein, was zusammengehört, und lässt liegen, was noch nicht fertig ist.
@@ -338,7 +339,32 @@ Referenzliste, die Namen mit eindeutigen Schlüsseln ([PIDs](#pid)) versieht. En
 **Research Organization Registry** – ein [PID](#pid)-System für Forschungsorganisationen (Universitäten, Institute, Förderer). Format: `https://ror.org/03bnzyp40`. Im Hub: ROR-IDs in `authority[ror]` für Institutionen.
 
 ### Vocabulary
-Im Hub-Kontext: der `vocabulary`-Tab mit geschlossenen [Enum](#enum)-Listen (`person_roles`, `institution_relations`, `status_values`). Eingabe in Dropdowns, die daran gebunden sind, wird abgelehnt. Siehe auch [Kontrolliertes Vokabular](#kontrolliertes-vokabular).
+Im Hub-Kontext: der `vocabulary`-Tab mit geschlossenen [Enum](#enum)-Listen (`person_roles`, `institution_relations`, `status_values`, `language_values`, `resource_types`). Eingabe in Dropdowns, die daran gebunden sind, wird abgelehnt. Siehe auch [Kontrolliertes Vokabular](#kontrolliertes-vokabular).
 
 ### Wikidata
 Ein offener Wissensgraph, kollaborativ gepflegt, mit Q-Nummern als [PIDs](#pid) (z.B. `Q937` für Albert Einstein). Im Hub: Wikidata-IDs in `authority` für Themen, Regionen, Keywords. Macht Begriffe maschinell verlinkbar mit anderen Datensätzen.
+
+---
+
+## Der Hub im Betrieb
+
+### Build
+Der Bauschritt zwischen Sheet und Website. Er holt die neun Tabs über die [Google Sheets API](#google-sheets-api), prüft sie ([Validierung](#validierung)) und schreibt fertige HTML-Seiten: eine pro Projekt und Sprache. Ein [Script](#script), kein [Skill](#skill): gleicher Input, gleicher Output. Ausführlich in [Vom Sheet zur Website](vom-sheet-zur-website.md).
+
+### CC0 1.0
+Eine Creative-Commons-Erklärung, mit der Rechte an einem Werk so weit wie möglich aufgegeben werden („public domain dedication"). Die **Metadaten** des Hubs stehen unter CC0. Nicht erfasst sind die Bildrechte an den Vorschaubildern und die Persönlichkeitsrechte der genannten Personen.
+
+### Freigabe (`verified`)
+Die Spalte `verified` in `core`. Nur Projekte mit `verified = TRUE` erscheinen auf der veröffentlichten Website; alles andere hat dort keine Seite, keinen Sitemap-Eintrag und keinen Datensatz. Gesetzt wird sie **einmal**, nachdem Autor:in und Lektorat geprüft haben, und sie gilt pro Projekt, nicht pro Feld oder Sprache. Der Bau hat mehrere Sicherungen darum herum, unter anderem bricht er ab, wenn ein zuvor veröffentlichtes Projekt plötzlich nicht mehr freigegeben ist.
+
+### Output
+Ein Ergebnis eines Projekts als eigener Datensatz im `outputs`-Tab: Edition, Aufsatz, Datensatz, Blogpost. Hat eine eigene ID, einen Typ (`resource_type`), Lizenz, Links und eigene Beschreibungen. Deshalb heißt das Modell **zweistufig**: Kacheln sind Projekte, Outputs sind eigenständig und einzeln zitierbar. Print-Publikationen tragen ihr volles Zitat in der Spalte `citation`.
+
+### records.json
+Die maschinenlesbare Ausgabe des Hubs: der veröffentlichte Datenbestand in einer Datei, ohne redaktionelle Steuerfelder, unter [CC0](#cc0-10). Gedacht für andere Systeme, die die Metadaten weiterverwenden wollen.
+
+### Staging-Vorschau
+Ein Bau der Website, der **alle** Projekte zeigt, auch die noch nicht freigegebenen, damit Autor:innen und Lektorat ihre Einträge so sehen, wie sie später aussehen. Trägt Sperrsignale für Suchmaschinen und ist **kein Passwortschutz**: der Link geht nur intern herum. Nicht zu verwechseln mit [Staging](#staging) in Git, das etwas ganz anderes bezeichnet.
+
+### Validierung
+Die Prüfung der Daten vor dem Bau. **Fehler** stoppen den Bau (unbekannte Rolle, Verweis auf ein nicht existierendes Projekt, doppelter Slug, fehlende Pflichtspalte), **Warnungen** nicht (fehlende Lizenz, sehr lange Beschreibung, mehr als sechs hervorgehobene Projekte). Der häufigste harte Fehler ist eine umbenannte Spaltenüberschrift im Sheet.

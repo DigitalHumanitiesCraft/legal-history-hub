@@ -61,7 +61,7 @@ Solange du allein und an einer Sache arbeitest, reicht der Grundzyklus. Für all
 - **Merge:** das Zusammenführen. Wenn das Feature fertig ist, fließt der Branch zurück in den Hauptstrang.
 - **Pull Request (PR):** eine Anfrage auf GitHub, einen Branch zu mergen. Der Clou: Andere können die Änderungen vorher ansehen und kommentieren. Der PR ist der Ort, an dem Qualitätskontrolle stattfindet, bevor etwas im Hauptstand landet. (Auf GitLab heißt dasselbe „Merge Request".)
 
-Für den Hub heißt das konkret: Riskantere Umbauten passieren auf einem Branch. Erst wenn alles funktioniert, wandern sie per Merge nach `main`, und von dort auf die veröffentlichte Website.
+Für den Hub ist das keine Empfehlung, sondern die vereinbarte Arbeitsweise: **niemand committet direkt auf `main`.** Alle arbeiten auf einem eigenen Branch und führen ihn per Pull Request zurück, und **vor jedem Merge liest jemand anderes den Code**. Der Sinn ist nicht Formalismus, sondern dass ein Fehler auffällt, solange er noch billig zu beheben ist.
 
 ## Was hat das alles mit Claude Code zu tun?
 
@@ -70,7 +70,7 @@ Hier schließt sich der Kreis zu den früheren Lektionen. Coding Agents wie Clau
 1. **Kontrolle.** Wenn Claude sagt „Ich habe die Änderung committet und gepusht", solltet ihr wissen: Die Änderung ist jetzt gespeichert *und* online. Wenn Claude einen Branch vorschlägt, heißt das: Es will den Hauptstand schützen.
 2. **Sicherheit.** Git ist euer Sicherheitsnetz beim Arbeiten mit KI. Jeder Commit ist ein Wiederherstellungspunkt. Genau deshalb empfiehlt die Promptotyping-Methode regelmäßige Commits als „Savepoints": Geht ein Experiment schief, rollt ihr zurück, statt zu reparieren.
 
-Und das Deployment? Beim Hub gilt: Was nach `main` gepusht wird, veröffentlicht GitHub Pages automatisch als Website. Push ist also der Knopf, mit dem eure Arbeit live geht. Das schauen wir uns in einer eigenen Lektion noch genauer an.
+Und das Deployment? Für diese Tutorial-Seite gilt: was nach `main` gepusht wird, veröffentlicht GitHub Pages automatisch. **Für den Hub gilt das bewusst nicht.** Dort ist Veröffentlichen ein eigener Schritt, den jemand von Hand anstößt, weil vorher die Daten aus dem Sheet geholt und geprüft werden müssen und weil nur freigegebene Projekte online gehen sollen. Ein Push macht also noch nichts live. Wie das genau läuft, steht in [Vom Sheet zur Website](/vom-sheet-zur-website.md); eine eigene Lektion zum Deployment folgt.
 
 <details>
 <summary>Für Neugierige: Was steckt technisch in einem Commit?</summary>

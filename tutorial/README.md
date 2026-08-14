@@ -27,6 +27,8 @@ Starte mit [Lektion 1: GenAI und Prompt Engineering](01-genai-und-prompt-enginee
 - [Lektion 1: GenAI und Prompt Engineering](01-genai-und-prompt-engineering.md)
 - [Lektion 2: Preparation und Role Models](02-preparation-und-role-models.md)
 - [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md)
+- [Lektion 7: Git und GitHub Basics](07-git-und-github-basics.md)
+- [Vom Sheet zur Website](vom-sheet-zur-website.md) (was heute wirklich läuft: Bauen, Prüfen, Freigeben)
 - [WS3 Cheat Sheet: Datenmodell und Sheets](ws3-cheatsheet.md)
 - [Glossar](glossar.md) (kategorisiert nach Arbeitskontext)
 

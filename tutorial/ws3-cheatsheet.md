@@ -4,6 +4,7 @@
 
 **Voraussetzungen:** WS1 (GenAI), WS2 (Web, Claude Code)
 **Vertiefung:** [Lektion 3: Das Datenmodell verstehen](03-datenmodell-hybrid.md)
+**Stand seither:** [Vom Sheet zur Website](vom-sheet-zur-website.md) – der `outputs`-Tab, die Freigabe über `verified` und der heutige Weg auf die Website
 **Slides:** <a href="slides/Workshop%203%20-%20Legal%20History%20Hub%20-%20mpilhlt%20-%20Datenmodell%20und%20Validierung%20in%20Google%20Sheets.pdf" target="_blank" rel="noopener">Workshop 3 – Slides (PDF)</a>
 
 ## Wide oder Long? Die Faustregel
@@ -22,7 +23,7 @@ Faustregel in einem Satz: *Kann ein Projekt mehrere davon haben? Dann long.*
 
 | Stufe | Tab | Was drin steht | Dropdown-Modus |
 |---|---|---|---|
-| **vocabulary** | `vocabulary` | Geschlossene Enums: `person_roles`, `institution_relations`, `status_values` | Eingabe **ablehnen** |
+| **vocabulary** | `vocabulary` | Geschlossene Enums: `person_roles`, `institution_relations`, `status_values`, `language_values`, `resource_types` | Eingabe **ablehnen** |
 | **authority** | `authority` | Normdatei mit PIDs (ORCID, GND, ROR, Wikidata) – **nie direkt** an Dropdowns gebunden | – |
 | **_helpers** | `_helpers` | Gefilterte Sichten per `FILTER`-Formel, eine Spalte pro Typ | Warnung anzeigen |
 
@@ -126,12 +127,12 @@ Gebietsschema prüfen: `Datei → Einstellungen → Gebietsschema` (Deutschland/
 
 Nicht jedes wiederkehrende Problem ist ein Skill-Problem.
 
-| | **Python-Script** | **Skill** (`.md`-Prompt) |
+| | **Script** | **Skill** (`.md`-Prompt) |
 |---|---|---|
 | Input → Output | deterministisch | variabel, kontextabhängig |
 | Fehlermodus | Exception | Halluzination möglich |
 | In CI ausführbar | ja | nein |
-| Hub-Beispiel | `scripts/build-hub-data.py` | `/explain-model`, `/enrich-authority` |
+| Hub-Beispiel | der Build (Sheet → fertige Seiten) | `/explain-model`, `/enrich-authority` |
 
 **Regel:** Gleicher Input → gleicher Output = **Script**. Claudes Urteil ist Teil des Werts = **Skill**.
 
@@ -169,13 +170,13 @@ Gibt es project_ids in den Long-Tabs, die im core nicht existieren?
 Welche Personen stehen in people, fehlen aber in authority?
 ```
 
-### Build (Python-Script, **kein** Skill)
+### Build (Script, **kein** Skill)
 ```
-Baue projects.json neu via scripts/build-hub-data.py.
-Zeig mir die Ausgabe und etwaige Validierungs-Warnungen.
+Hol die aktuellen Daten aus dem Sheet, bau die Seite neu und zeig mir
+die Ausgabe samt Validierungs-Fehlern und -Warnungen.
 ```
 
-Das Build-Skript ist ein deterministisches Python-Script. Claude Code hat es geschrieben und führt es über Bash aus. Es ist bewusst **kein** Skill: gleicher Input soll zu gleichem Output führen.
+Der Build ist ein deterministisches Script: gleicher Input, gleicher Output. Claude Code hat es geschrieben und führt es über Bash aus, es ist bewusst **kein** Skill. Was dabei genau passiert (holen, prüfen, bauen, veröffentlichen, Freigabe) steht in [Vom Sheet zur Website](vom-sheet-zur-website.md).
 
 ### Validieren mit Skill
 ```

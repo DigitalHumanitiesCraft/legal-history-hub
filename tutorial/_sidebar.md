@@ -12,6 +12,7 @@
   * [WS5: Skills, MCP, Git und GitHub](slides/ws5-skills-mcp-git-github.md)
 
 * **Nachschlagen**
+  * [Vom Sheet zur Website](vom-sheet-zur-website.md)
   * [Glossar](glossar.md)
   * [WS3 Cheat Sheet](ws3-cheatsheet.md)
   * [Promptotyping mit Claude Code](promptotyping-claude-code.md)

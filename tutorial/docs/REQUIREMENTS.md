@@ -90,7 +90,7 @@ Decision: integrated as native Docsify Markdown (`tutorial/glossar.md`) rather t
 
 ## Success Criteria
 
-1. Kerstin can add a new project to the Hub end-to-end (edit Google Sheet → ask Claude Code to run `scripts/build-hub-data.py` → commit → verify it appears) without help.
+1. Kerstin can add a new project to the Hub end-to-end (edit the Google Sheet → trigger a build → read the validation output → set `verified` → publish → verify it appears) without help.
 2. Kerstin can fix a simple CSS issue using Claude Code.
 3. Kerstin can deploy a change via GitHub.
 4. Kerstin can add a new lesson to the tutorial website via the GitHub web editor.
