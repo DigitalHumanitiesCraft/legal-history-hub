@@ -190,3 +190,14 @@ Zunächst war Option B (Docsify-Seite + JS-Widget) geplant, umgesetzt wurde am E
 - Lektion 8 (Deployment) steht weiterhin aus und ist der Ort, an dem der Bauschritt didaktisch statt referenziell erklärt gehört.
 - Die WS3-Folien bleiben inhaltlich überholt. Falls sie noch einmal aktiv im Unterricht verwendet werden, wäre eine korrigierte Zweitfassung sinnvoller als eine Änderung am Original.
 - Die Lektionen 4 bis 6 fehlen unverändert; die Sidebar springt von 3 auf 7.
+
+**Review vor dem Push (Runde 1, Fable-Reviewer gegen den gebauten Code).** Keine Klasse-A-Befunde, aber drei gemessen falsche Sachaussagen im neuen Text, alle korrigiert:
+
+1. **Vorschaubild.** Behauptet war, eine fehlende Bilddatei falle auf das Themen-Feld zurück. Tatsächlich zeigt die Karte das Themen-Feld nur, wenn `thumbnail_path` **leer** ist; ist das Feld gefüllt und die Datei fehlt, steht dort ein kaputtes Bild. Der ursprüngliche Text hätte die Redaktion bei einem Tippfehler im Dateinamen an der falschen Stelle suchen lassen. Jetzt zwei getrennte Zeilen in der Symptomtabelle.
+2. **Sprachangaben an Ergebnissen.** Behauptet war, sie stünden „in keiner Seite". Sie werden aber pro Projekt zusammengefasst und speisen den Sprachfilter der Übersichtsseite. Eine falsche Sprachangabe ist auf der Vorschau also sehr wohl sichtbar, nur nicht am einzelnen Ergebnis. Präzisiert; die Aussage des Absatzes (die Vorschau zeigt nicht jedes Feld) bleibt.
+3. **Zählfehler in Lektion 3.** `outputs` war als „sechster Tab" bezeichnet, obwohl derselbe Text zwei Absätze vorher schon sechs Tabs aufzählt und das Sheet neun hat. Jetzt „ein weiterer Tab".
+4. Kleiner: bei mehr als sechs `featured`-Projekten fällt nicht „eines" weg, sondern alle überzähligen (`getFeatured()` schneidet mit `slice(0, 6)`).
+
+**Zusätzlich, als Abwägung nach dem Review:** der Anbietername des Staging-Hostings steht nicht mehr im Tutorial („Actions → den Staging-Workflow" statt des vollen Workflow-Namens). Der Text sagt öffentlich, dass eine passwortlose Vorschau mit allen unfreigegebenen Projekten existiert; die unerratbare Adresse ist ihr einziger Schutz. Den Anbieter dazuzuschreiben, verkleinert den Suchraum, ohne didaktisch etwas zu bringen. Die Warnung selbst bleibt drin, weil die Redaktion sie braucht.
+
+**Grenzen des Link-Checkers, aus dem Review mitgenommen:** er prüft keine externen Links, ist unter Windows case-insensitiv (ein Link mit falscher Groß-/Kleinschreibung ist lokal grün und 404t auf GitHub Pages), findet keine verwaisten Seiten und modelliert Docsify-Anker nur näherungsweise. Für die Groß-/Kleinschreibung ist `check-live-links.mjs` nach dem Push zuständig.

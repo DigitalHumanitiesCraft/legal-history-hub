@@ -120,12 +120,12 @@ Drei Sicherungen hängen daran, weil ein Deploy nicht zurückgenommen werden kan
 
 Die Autor:innen arbeiten **nicht** im Sheet. Sie bekommen ihr Projekt so zu sehen, wie es später aussieht, und melden Korrekturen zurück; die Redaktion pflegt sie ins Sheet ein. Das Lektorat läuft denselben Weg, zeitlich danach.
 
-Dafür gibt es die **Staging-Vorschau**: ein Bau der Website, der bewusst **alle** Projekte zeigt, auch die noch nicht freigegebenen. Sie trägt für Suchmaschinen ein Sperrsignal (`noindex`, `Disallow: /`, keine Sitemap) und wird über GitHub angestoßen: Actions → *Staging (Surge, on demand)* → Run workflow.
+Dafür gibt es die **Staging-Vorschau**: ein Bau der Website, der bewusst **alle** Projekte zeigt, auch die noch nicht freigegebenen. Sie trägt für Suchmaschinen ein Sperrsignal (`noindex`, `Disallow: /`, keine Sitemap) und wird über GitHub angestoßen: Actions → den Staging-Workflow → Run workflow.
 
 Zwei Dinge dazu sind wichtig:
 
 - Die Vorschau ist **kein Passwortschutz**. Wer die Adresse hat, sieht alles. Deshalb wird der Link nur intern weitergegeben, nie in einem öffentlichen Text, Blog oder Social-Media-Post.
-- Die Vorschau zeigt nicht alles, was freigegeben werden muss. Sprachangaben an Ergebnissen etwa stehen in keiner Seite. Wer `verified` setzt, bestätigt damit die sichtbaren Texte in **einer** Oberflächensprache, nicht automatisch jedes Feld des Datensatzes.
+- Die Vorschau zeigt nicht alles, was freigegeben werden muss. Die Sprache eines einzelnen Ergebnisses zum Beispiel steht nirgends ausgeschrieben; sie wirkt nur als Filter auf der Übersichtsseite, wo man alle Sprachen eines Projekts zusammen sieht. Wer `verified` setzt, bestätigt damit die sichtbaren Texte in **einer** Oberflächensprache, nicht automatisch jedes Feld des Datensatzes.
 
 ## Wenn etwas nicht funktioniert
 
@@ -135,7 +135,8 @@ Zwei Dinge dazu sind wichtig:
 | Ein Projekt fehlt auf der veröffentlichten Seite | `verified` steht nicht auf TRUE. |
 | Eine Korrektur ist nach dem nächsten Lauf wieder weg | Sie wurde in einer CSV gemacht, nicht im Sheet. |
 | Auf der Startseite fehlt ein hervorgehobenes Projekt | Es sind mehr als sechs Projekte `featured`; die Startseite zeigt höchstens sechs. |
-| Ein Vorschaubild erscheint nicht | Datei fehlt oder heißt anders als in `thumbnail_path`; die Seite zeigt dann ein Kategorie-Feld statt des Bildes. |
+| Statt des Vorschaubilds steht ein Themen-Feld auf der Kachel | `thumbnail_path` ist leer. Das ist der vorgesehene Ersatz, kein Fehler. |
+| Das Vorschaubild ist ein kaputtes Bildsymbol | `thumbnail_path` ist gefüllt, aber die Datei heißt anders oder fehlt. Die Validierung warnt davor, sie stoppt den Bau aber nicht. |
 
 Der Lauf in GitHub Actions druckt bei einem Abbruch die Fehlerzeilen der Validierung mit. Die erste rote Zeile ist fast immer die Antwort.
 

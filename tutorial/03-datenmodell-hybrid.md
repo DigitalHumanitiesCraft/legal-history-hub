@@ -103,7 +103,7 @@ Wide **und** long, nicht entweder-oder. Deshalb **Hybrid**.
 
 ### Der Nachzügler: `outputs`
 
-Seit dem Workshop ist ein sechster Tab dazugekommen, und der passt in keine der beiden Schubladen: **`outputs`**, die Ergebnisse der Projekte. Eine Zeile ist dort keine Beziehung, sondern ein eigener Gegenstand: eine Edition, ein Aufsatz, ein Datensatz, ein Blogpost.
+Seit dem Workshop ist ein weiterer Tab dazugekommen, und der passt in keine der beiden Schubladen: **`outputs`**, die Ergebnisse der Projekte. Eine Zeile ist dort keine Beziehung, sondern ein eigener Gegenstand: eine Edition, ein Aufsatz, ein Datensatz, ein Blogpost.
 
 Der Unterschied zu den fünf langen Tabs ist wichtig. In `people` steht eine Verknüpfung („diese Person gehört zu diesem Projekt"), und die Zeile hat außer der Rolle nichts Eigenes. Ein Output dagegen hat eine eigene ID (`output_id`), einen Typ, eine Lizenz, Links und eigene Beschreibungen in drei Sprachen. Er ist ein **eigenständiger Datensatz**, der zufällig zu einem Projekt gehört, und nicht ein Attribut des Projekts.
 
@@ -114,7 +114,7 @@ Deshalb sagen wir: das Modell hat **zwei Ebenen**. Eine Kachel auf der Website i
 Zwei Ja-Nein-Spalten in `core` sehen harmlos aus und entscheiden trotzdem, was Besucherinnen der Website sehen:
 
 - **`verified`**: die redaktionelle Freigabe. Die veröffentlichte Website enthält **ausschließlich** Projekte mit `verified = TRUE`. Nicht freigegebene Projekte bekommen keine Seite, tauchen in keiner Suchmaschinen-Sitemap auf und stehen in keiner Datenausgabe.
-- **`featured`**: Hervorhebung auf der Startseite. Die Startseite zeigt höchstens sechs Projekte. Stehen mehr auf TRUE, wird eines still nicht angezeigt, und die Redaktion sollte auswählen.
+- **`featured`**: Hervorhebung auf der Startseite. Die Startseite zeigt höchstens sechs Projekte. Stehen mehr auf TRUE, fallen die überzähligen still weg, und die Redaktion sollte auswählen, statt den Zufall entscheiden zu lassen.
 
 Details dazu in [Vom Sheet zur Website](vom-sheet-zur-website.md).
 
