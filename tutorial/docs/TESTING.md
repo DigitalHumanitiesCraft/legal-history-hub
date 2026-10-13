@@ -2,7 +2,7 @@
 
 Zwei Tests in `tutorial/tests/`. Statische Link-Validierung im Code-Review-Loop, Live-Smoke gegen die deployte Seite vor Workshops.
 
-Der Marp-Folien-Overflow-Check lebt nicht hier, sondern im Skill `/marp-slides`.
+Einen Overflow-Check für die Marp-Folien gibt es derzeit nicht (siehe unten).
 
 ## Test-Matrix
 
@@ -26,7 +26,6 @@ node tutorial/tests/check-live-links.mjs https://example.org/legal-history-hub/t
 
 - `check-links.js` ist die **erste Verteidigungslinie**. Schnell, deterministisch, ohne Netz. Catcht 90 % der Fehler beim Schreiben.
 - `check-live-links.mjs` ist die **einzige Schicht, die Docsify-Router-Quirks und GitHub-Pages-Realität sieht** (Custom Domain, Case-Sensitivität, Hash-Routing). Statisch nicht reproduzierbar.
-- Folien-Overflow ist Teil des Skills `/marp-slides`, weil er ohnehin nur beim Bauen eines Decks ausgelöst wird und dort den Workflow integriert.
 
 ## Warum nicht alles in einem File
 
@@ -34,4 +33,4 @@ node tutorial/tests/check-live-links.mjs https://example.org/legal-history-hub/t
 
 Frühere Datei `check-assets-http.js` (lokaler HTTP-Server für HEAD-Checks) wurde entfernt: ihre Markdown-Asset-Falle ist als reine Regex in `check-links.js` migriert, der HEAD-Check selbst doppelte nur die `fs.existsSync`-Logik bzw. wird vom Live-Test echter abgedeckt.
 
-Frühere Datei `check-slide-overflow.mjs` (Marp-Folien-Overflow per Playwright) wurde in den Skill `/marp-slides` integriert.
+Frühere Datei `check-slide-overflow.mjs` (Marp-Folien-Overflow per Playwright) wurde in den Skill `/marp-slides` integriert. Der Skill ist am 13.10.2026 entfernt worden; das Skript steht noch in der [Historie der Skill-Sammlung](https://github.com/chsteiner/skill-collection-steiner-chris/blob/b59659779db52d6dcafb8342d558cc28b8a1761f/skills/marp-slides/scripts/check-slide-overflow.mjs).
