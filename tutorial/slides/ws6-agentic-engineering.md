@@ -16,7 +16,7 @@
 - Euer Harness heute: was im Hub-Repo steht und was nur lokal liegt, und warum `.claude/` mitversioniert werden sollte
 - Wissen lebt in Repositories, Aufgaben leben in Issues
 - Skills für den Hub: Korrekturrunde, Sheet prüfen, Journal-Handoff, Go-live-Checkliste
-- Regel oder Hook: eine Regel in `CLAUDE.md` ist eine Bitte, ein Hook ist Code und läuft immer
+- Regel oder Hook: eine Regel in `CLAUDE.md` ist eine Bitte, ein Hook ist Code und läuft bei jedem Ereignis, für das er eingetragen ist
 - GitHub-Workflows als Teil des Harness: Freigabe-Gate und Schrumpf-Schutz im Deploy
 - Loops: geplante Läufe, autonome Sessions, eine koordinierende Session (Operator), Maker und Checker
 - Was ein autonomer Lauf braucht, und welche Arbeit im Hub dafür in Frage kommt

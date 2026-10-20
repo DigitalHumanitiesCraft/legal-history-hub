@@ -50,7 +50,7 @@ UI and content: DE, EN, ES. Singleton multilingual fields on `core` use `_de` / 
 | 1 (Month 1-2) | Requirements, metadata model | Done (flat v1, then the hybrid model) |
 | 2 (Month 2-4) | Grundlagen-Workshops 1-3 | WS1 (04.03.2026), WS2 (13.03.2026), WS3 (model prepared 15.04.2026) done |
 | 3 (Month 3-6) | Hub prototype | Rebuilt in the institute repository; not tracked here |
-| 4-7 | Advanced workshops, polish, launch | WS4 and WS5 published; **WS6 ("Eigene Projekte umsetzen") outstanding** |
+| 4-7 | Advanced workshops, polish, launch | WS4 and WS5 held and published; WS6 ("Agentic Engineering") published, takes place 03.11.2026 |
 
 Lessons 4 to 6 are still missing from the tutorial: the sidebar jumps from lesson 3 to lesson 7.
 
