@@ -13,6 +13,7 @@
 
 * **Nachschlagen**
   * [Vom Sheet zur Website](vom-sheet-zur-website.md)
+  * [Betrieb: Fragen aus dem Team](betrieb-fragen.md)
   * [Glossar](glossar.md)
   * [WS3 Cheat Sheet](ws3-cheatsheet.md)
   * [Promptotyping mit Claude Code](promptotyping-claude-code.md)
