@@ -26,5 +26,8 @@ node_modules/
 # Interne Arbeitsunterlagen (Meetings, Transkripte, Entwürfe), nicht öffentlich
 internal/
 
+# Fehlerjournal (rote Zeilen nach rules/wiederholte-fehler.md), nicht öffentlich
+fehlerjournal.md
+
 # DHCraft-Slides-Variante (nur lokal, für Apps-Script-Importer)
 tutorial/slides/ws3-datenmodell-deck.dhcraft.md
