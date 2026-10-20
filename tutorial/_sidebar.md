@@ -10,6 +10,7 @@
   * [WS3: Datenmodell in Google Sheets](slides/ws3-datenmodell.md)
   * [WS4: Context Engineering und Claude-Infrastruktur](slides/ws4-claude-infrastruktur.md)
   * [WS5: Skills, MCP, Git und GitHub](slides/ws5-skills-mcp-git-github.md)
+  * [WS6: Agentic Engineering](slides/ws6-agentic-engineering.md)
 
 * **Nachschlagen**
   * [Vom Sheet zur Website](vom-sheet-zur-website.md)
