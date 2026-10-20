@@ -23,5 +23,8 @@ node_modules/
 # Contract (not public)
 27_25*
 
+# Interne Arbeitsunterlagen (Meetings, Transkripte, Entwürfe), nicht öffentlich
+internal/
+
 # DHCraft-Slides-Variante (nur lokal, für Apps-Script-Importer)
 tutorial/slides/ws3-datenmodell-deck.dhcraft.md
