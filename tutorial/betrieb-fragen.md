@@ -14,7 +14,7 @@
 
 ## Tracker und Analyse (DSGVO)
 
-**Geplant ist das Matomo des Instituts**, cookielos (Absprache vom 20.10.2026). Die Institutsseite nutzt es nach diesem Stand schon. Die IT legt dort eine Website für den Hub an und gibt ein kurzes Einbindungs-Skript heraus, das in die Seite kommt. Einen eigenen Server braucht der Hub dafür nicht.
+**Geplant ist Matomo**, cookielos (Absprache vom 20.10.2026). Die Institutsseite nutzt schon das zentrale Matomo der MPG (`statistik.mpg.de`). Dort wird eine Website für den Hub angelegt, und es gibt ein kurzes Einbindungs-Skript, das in die Seite kommt. Wer das anlegt, klärt die IT des Instituts. Einen eigenen Server braucht der Hub dafür nicht.
 
 Folgen: ein eigener Absatz in der Datenschutzerklärung, und falls das Matomo bei einem Dienstleister läuft, ein Auftragsverarbeitungsvertrag. Cookies setzt der Hub auch dann keine.
 
@@ -26,7 +26,7 @@ Folgen: ein eigener Absatz in der Datenschutzerklärung, und falls das Matomo be
 
 Die Vorschau zeigt auch noch nicht freigegebene Projekte. Sie braucht deshalb einen Passwortschutz. Geplant ist ein **Server der Instituts-IT oder der GWDG**. Welche Form er hat, ist gleich (Webspace, virtuelle Maschine, Container). Er muss statische Dateien über HTTPS ausliefern, alle Pfade mit Passwort schützen und einen Upload per SSH-Schlüssel erlauben. Externe brauchen dann nur Link und Passwort, kein Konto.
 
-Bis der Server steht, läuft die Vorschau bei Surge, ohne Passwort. Cloudflare kommt nicht in Frage, weil es nach den Vorgaben der MPG nicht offiziell genutzt werden kann.
+Bis der Server steht, läuft die Vorschau wie bisher, ohne Passwort. Cloudflare kommt nicht in Frage, weil es nach den Vorgaben der MPG nicht offiziell genutzt werden kann.
 
 **Die spätere Live-Seite betrifft das nicht.** Sie soll auf GitHub Pages laufen, unabhängig davon, wo die Vorschau liegt.
 
@@ -36,7 +36,7 @@ Bis der Server steht, läuft die Vorschau bei Surge, ohne Passwort. Cloudflare k
 1. **Ein Owner der GitHub-Organisation** lässt die Domain in den Org-Einstellungen verifizieren. GitHub gibt dafür einen TXT-Eintrag aus.
 2. **IT des Instituts:** setzt diesen TXT-Eintrag und lässt ihn dauerhaft stehen.
 3. **IT des Instituts:** setzt erst danach den CNAME der Subdomain auf GitHub Pages. Andersherum könnte ein fremdes GitHub-Konto die Adresse für sich beanspruchen.
-4. **ihr:** in den Repo-Einstellungen unter *Pages* die Domain eintragen und „Enforce HTTPS" anhaken. Das Zertifikat holt GitHub dann selbst.
+4. **ihr:** in den Repo-Einstellungen unter *Pages* die Domain eintragen und „Enforce HTTPS“ anhaken. Das Zertifikat holt GitHub dann selbst.
 
 **CAA-Eintrag:** Ohne CAA-Eintrag darf jede Zertifizierungsstelle ausstellen, also auch Let's Encrypt. Legt die IT später einen an, muss er `letsencrypt.org` erlauben, sonst läuft das Zertifikat nicht mehr nach.
 
@@ -52,7 +52,7 @@ Quelle: GitHub-Doku [Securing your GitHub Pages site with HTTPS](https://docs.gi
 
 **Typische Gründe, die keine sind:**
 - **Zugänge liegen bei einer externen Firma:** Das löst eine Übergabe von Sheet und Google-Projekt ans Institut, ohne Wechsel.
-- **Datenschutz:** Im Sheet stehen Forschungsmetadaten, die zur Veröffentlichung bestimmt sind, und das Sheet ist nicht öffentlich. Nach dem Go-live liegen dieselben Daten ohnehin öffentlich auf GitHub Pages, ebenfalls bei einem US-Anbieter. Wer Google Sheets wegen dieser Daten ablehnt, müsste auch GitHub Pages ablehnen. Formal braucht es eine Freigabe für Google Sheets, die holt man ein.
+- **Datenschutz:** Im Sheet stehen Forschungsmetadaten, die zur Veröffentlichung bestimmt sind, und das Sheet ist nicht öffentlich. Nach dem Go-live liegen die Daten ohnehin öffentlich bei GitHub, ebenfalls einem US-Anbieter: die freigegebenen Projekte auf GitHub Pages, der ganze Bestand im öffentlichen Repo. Wer Google Sheets wegen dieser Daten ablehnt, müsste auch GitHub ablehnen. Formal braucht es eine Freigabe für Google Sheets, die holt man ein.
 
 **Die genannten Alternativen** (Stand Oktober 2026):
 - **Framacalc geht nicht:** Wer die URL hat, kann bearbeiten, es gibt also keinen Schutz für noch nicht freigegebene Daten.
